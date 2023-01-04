@@ -23,7 +23,19 @@
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link active text-light" aria-current="page" href="{{path('app_contact')}}">Renseignements</a>
+                            <a class="nav-link active text-light" aria-current="page" href="{{path('app_contact')}}">Contact</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link active text-light dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Contrôles
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="{{ path('app_liste_contact') }}">Liste des contacts</a></li>
+                                <li><a class="dropdown-item" href="#">Liste des produits</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="#">Liste des commandes</a></li>
+                                <li><a class="dropdown-item" href="#">Liste des reprises</a></li>
+                            </ul>
                         </li>
                     </ul>
                     </div>
@@ -41,8 +53,136 @@
                 </h2>
             {% endfor %}
             
-            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+        
+        {% endblock %}
+        
+        {% block footer %}
+            <!-- Footer -->
+            <footer class="bg-dark text-center text-white">
+            <!-- Grid container -->
+            <div class="container p-4">
+                <!-- Section: Social media -->
+                <section class="mb-4">
+                <a class="btn btn-outline-light btn-floating m-1" href="https://www.facebook.com/webdealmarketbethune" role="button"
+                    ><i class="fab fa-facebook-f"></i
+                ></a>
+                <a class="btn btn-outline-light btn-floating m-1" href="https://www.instagram.com/webdealmarket/" role="button"
+                    ><i class="fab fa-instagram"></i
+                ></a>
+                <a class="btn btn-outline-light btn-floating m-1" href="https://www.backmarket.fr/fr-fr/s/sasu-web-deal/d4cb6497-b201-4acd-b18c-edb12d83c2c5" role="button"
+                    ><i class="fa-regular fa-cart-shopping"></i
+                ></a>
 
+                <!-- Section: Social media -->
+
+                <!-- Section: Text -->
+                <section class="mb-4">
+                <p>
+                    Suivez-nous sur nos réseaux sociaux !<br/>WEB DEAL MARKET votre boutique spécialisée en équipement multimédia à Béthune !
+                </p>
+                </section>
+                <!-- Section: Text -->
+
+                <!-- Section: Links -->
+                <section class="">
+                <!--Grid row-->
+                <div class="row">
+                    <!--Grid column-->
+                    <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+                    <h5 class="text-uppercase">Nos produits</h5>
+
+                    <ul class="list-unstyled mb-0">
+                        <li>
+                        <a href="#!" class="text-white">Téléphones</a>
+                        </li>
+                        <li>
+                        <a href="#!" class="text-white">Ordinateurs</a>
+                        </li>
+                        <li>
+                        <a href="#!" class="text-white">Écrans</a>
+                        </li>
+                        <li>
+                        <a href="#!" class="text-white">Consoles de jeu</a>
+                        </li>
+                    </ul>
+                    </div>
+                    <!--Grid column-->
+
+                    <!--Grid column-->
+                    <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+                    <h5 class="text-uppercase">Nos produits</h5>
+
+                    <ul class="list-unstyled mb-0">
+                        <li>
+                        <a href="#!" class="text-white">Coques téléphones</a>
+                        </li>
+                        <li>
+                        <a href="#!" class="text-white">Figurines Pop</a>
+                        </li>
+                        <li>
+                        <a href="#!" class="text-white">Jeux vidéo</a>
+                        </li>
+                        <li>
+                        <a href="#!" class="text-white">Autres</a>
+                        </li>
+                    </ul>
+                    </div>
+                    <!--Grid column-->
+
+                    <!--Grid column-->
+                    <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+                    <h5 class="text-uppercase">Nos services</h5>
+
+                    <ul class="list-unstyled mb-0">
+                        <li>
+                        <a href="#!" class="text-white">Revendre mon appareil</a>
+                        </li>
+                        <li>
+                        <a href="#!" class="text-white">Réparation téléphone</a>
+                        </li>
+                        <li>
+                        <a href="#!" class="text-white">Réparation TV</a>
+                        </li>
+                        <li>
+                        <a href="#!" class="text-white">Réparation électronique</a>
+                        </li>
+                    </ul>
+                    </div>
+                    <!--Grid column-->
+
+                    <!--Grid column-->
+                    <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+                    <h5 class="text-uppercase">Liens utiles</h5>
+
+                    <ul class="list-unstyled mb-0">
+                        <li>
+                        <a href="{{path('app_contact')}}" class="text-white">Contact</a>
+                        </li>
+                        <li>
+                        <a href="https://goo.gl/maps/zEranQBGj6EwosT7A" class="text-white">Notre adresse</a>
+                        </li>
+                        <li>
+                        <a href="#!" class="text-white">Mentions légales</a>
+                        </li>
+                        <li>
+                        <a href="#!" class="text-white">Conditions Générales de Ventes</a>
+                        </li>
+                    </ul>
+                    </div>
+                    <!--Grid column-->
+                </div>
+                <!--Grid row-->
+                </section>
+                <!-- Section: Links -->
+            </div>
+            <!-- Grid container -->
+            <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+                © 2023 Copyright:
+                <a class="text-white" href="#">Webdealmarket.fr</a>
+            </div>
+            </footer>
+            <!-- Footer -->
         {% endblock %}
     </body>
 </html>
