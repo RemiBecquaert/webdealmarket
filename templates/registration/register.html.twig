@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }}S'inscrire{% endblock %}
+
+{% block body %}
+    {% for flash_error in app.flashes('verify_email_error') %}
+        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+    {% endfor %}
+
+{{ parent() }}
+
+    <div class="container mt-4 mb-4">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <h2 class="text-primary text-center"><strong>Créez votre compte Web Deal Market</strong></h2>
+            <hr class="featurette-divider text-light">    
+
+                {{form_start(registrationForm, {'attr':{'class':'text-center'}})}}
+
+                {{form_label(registrationForm.email, 'Saisir votre adresse-mail', {'label_attr':{'class':'fw-bold text-dark'}})}}
+                {{form_widget(registrationForm.email, {'attr':{'class':'form-control text-dark', 'placeholder':'Votre adresse-mail', 'maxlength':'80', 'type':'email'}})}}
+
+                {{form_label(registrationForm.nom, 'Saisir votre nom', {'label_attr':{'class':'fw-bold text-dark'}})}}
+                {{form_widget(registrationForm.nom, {'attr':{'class':'form-control text-dark', 'placeholder':'Votre nom', 'maxlength':'50'}})}}
+
+                {{form_label(registrationForm.prenom, 'Saisir votre prénom', {'label_attr':{'class':'fw-bold text-dark'}})}}
+                {{form_widget(registrationForm.prenom, {'attr':{'class':'form-control text-dark', 'placeholder':'Votre prénom', 'maxlength':'50'}})}}
+
+                {{form_label(registrationForm.plainPassword.first, 'Saisir un mot de passe', {'label_attr':{'class':'fw-bold text-dark'}})}}
+                {{form_widget(registrationForm.plainPassword.first, {'attr':{'class':'form-control text-dark', 'placeholder':'Mot de passe', 'maxlength':'50'}})}}
+
+                {{form_label(registrationForm.plainPassword.second, 'Confirmer le mot de passe', {'label_attr':{'class':'fw-bold text-dark'}})}}
+                {{form_widget(registrationForm.plainPassword.second, {'attr':{'class':'form-control text-dark', 'placeholder':'Confirmer le mot de passe', 'maxlength':'50'}})}}
+
+                {{form_label(registrationForm.agreeTerms, 'J\'accepte les conditions d\'utilisation du site', {'label_attr':{'class':'fw-bold text-dark'}})}}
+                {{form_widget(registrationForm.agreeTerms, {'attr':{'class':'form-check-label text-dark', 'placeholder':'J\'accepte les conditions d\'utilisation du site'}})}}
+                <br/>
+                {{form_widget(registrationForm.envoyer, {'label':"Créer mon compte", 'attr':{'class':'btn btn-outline-primary mt-3'}})}}
+                {{form_end(registrationForm, {render_rest: true})}} 
+        </div>
+    </div>
+</div>
+{% endblock %}
