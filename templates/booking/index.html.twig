@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }}Liste des rendez-vous{% endblock %}
+
+{% block body %}
+{{ parent() }}
+    <h2 class="text-dark text-center mt-2"><strong><u>Liste des rendez-vous</u></strong></h2>
+    <h5 class="text-primary text-center mt-2">Date du jour: {{ "now"|date("d/m/Y") }}</h2>
+	<div class="container-fluid p-4">
+		<div class="row justify-content-center">
+            <div class="col-12 col-md-8 bg-white p-4 m-0 text-primary">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">Date souhaitée</th>
+                                <th scope="col">Adresse mail</th>
+                                <th scope="col">Raison</th>
+                                <th scope="col">Date de la demande</th>
+                                <th scope="col">A confirmer ?</th>
+                                <th scope="col">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for booking in bookings | sort((a, b) => a.beginAt <=> b.beginAt) %}
+                            <tr>
+                                {% if booking.beginAt > date()  %}
+                                    <td>{{ booking.beginAt | date('d-m-Y H:i:s')}}</td>
+                                {% else %}
+                                    <td class="text-danger">{{ booking.beginAt | date('d-m-Y H:i:s')}}</td>
+                                {% endif %}
+                                <td>{{ booking.idClient.email}}</td>
+                                <td>{{ booking.sujetId.libelle}}</td>
+                                <td>{{ booking.dateCreation | date('d-m-Y H:i:s')}}</td>
+                                {% if booking.isConfirmed == true  %}
+                                    <td class="text-success">RDV confirmé !</td>
+                                {% else %}
+                                    <td class="text-warning">A confirmer</td>
+                                {% endif %}
+                                <td>
+                                    <a href="{{ path('app_booking_show', {'id': booking.id}) }}">Voir infos</a>
+                                    <a href="{{ path('app_booking_edit', {'id': booking.id}) }}">Modifier</a>
+                                </td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="4">Aucun rendez-vous n'a été trouvé !</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>        
+{% endblock %}

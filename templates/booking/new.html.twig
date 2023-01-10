@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }}Créer un nouveau rendez-vous{% endblock %}
+
+{% block body %}
+{{ parent() }}
+    
+        <h2 class="text-dark text-center mt-2">Créer un nouveau rendez-vous</h2>
+
+    {{ include('booking/_form.html.twig') }}
+
+{% endblock %}

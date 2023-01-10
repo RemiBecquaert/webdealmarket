@@ -1,0 +1,20 @@
+<div class="container p-4">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+                {{form_start(form, {'attr':{'class':'text-center'}})}}
+
+                {{form_label(form.sujetId, 'Indiquez-nous le sujet de la prise de rendez-vous', {'label_attr':{'class':'fw-bold text-dark'}})}}
+                {{form_widget(form.sujetId, {'attr':{'class':'form-control text-dark', 'placeholder':'Sujet de la demande de rendez-vous'}})}}
+
+                {{form_label(form.description, 'Décrivez-nous le problème de votre appareil ainsi que son modèle', {'label_attr':{'class':'fw-bold text-dark'}})}}
+                {{form_widget(form.description, {'attr':{'class':'form-control text-dark', 'placeholder':'L\'écran de mon appareil est cassé, la batterie semble défectueuse...'}})}}
+
+                {{form_label(form.beginAt, 'Ajoutez la date désirée pour le rendez-vous (Sous réserve de validation)', {'label_attr':{'class':'fw-bold text-dark'}})}}
+                {{form_widget(form.beginAt)}}
+                <br/>
+                {{form_widget(form.envoyer, {'label':"Envoyer la demande de rendez-vous", 'attr':{'class':'btn btn-outline-primary mt-3'}})}}
+                {{form_end(form, {render_rest: true})}} 
+        </div>
+    </div>
+</div>

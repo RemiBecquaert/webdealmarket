@@ -5,11 +5,13 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta author="BECQUAERT Rémi">
-        <!--link rel="icon" type="image/x-icon" href="#"-->
+        <link rel="icon" type="image/x-icon" href="{{asset('images/logo.png')}}">
 
         <title>{% block title %}Web Deal Market - {% endblock %}</title>
         <link rel="stylesheet" href="https://bootswatch.com/5/morph/bootstrap.min.css">
-        <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.2.1/css/all.css"> 
+        <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.2.1/css/all.css">
+        <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
     </head>
     <body>
         {% block body %}
@@ -26,7 +28,7 @@
                             <a class="nav-link active text-light" aria-current="page" href="#">Revendre mon appareil</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active text-light" aria-current="page" href="#">Service de réparation</a>
+                            <a class="nav-link active text-light" aria-current="page" href="{{path('app_reparer')}}">Service de réparation</a>
                         </li> 
                        <li class="nav-item">
                             <a class="nav-link active text-light" aria-current="page" href="{{path('app_contact')}}">Contact</a>
@@ -45,6 +47,15 @@
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link active text-light dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Gestion rendez-vous
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="{{path('app_booking_index')}}">Liste des demandes de rendez-vous</a></li>
+                                <li><a class="dropdown-item" href="{{path('app_booking_valids')}}">Liste des rendez-vous validés</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link active text-light dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Gestion du site
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -56,7 +67,7 @@
 
                         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                         <li class="nav-item">
-                            <a class="nav-link active text-light" aria-current="page" href="#">Mon profil</a>
+                            <a class="nav-link active text-light" aria-current="page" href="{{path('app_profile')}}">Mon profil</a>
                         </li>  
                         <li class="nav-item">
                             <a class="nav-link active text-light" aria-current="page" href="#"><i class="fa-regular fa-cart-shopping-fast"></i></a>
@@ -88,7 +99,7 @@
                                     <a class="nav-link" aria-current="page" href="#">Rechercher par marque</a>
                                 </li>                
                                 <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Téléphones</a>
+                                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Smartphones</a>
                                     <ul class="dropdown-menu">
                                         <li><a class="dropdown-item" href="#">Apple</a></li>
                                         <li><a class="dropdown-item" href="#">Samsung</a></li>
@@ -166,6 +177,12 @@
                     {{ message }}
                 </h2>
             {% endfor %}
+
+            {% for message in app.flashes('success') %}
+                <h2 class="alert alert-success text-center" role="alert">
+                    {{ message }}
+                </h2>
+            {% endfor %}
             
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
         
@@ -178,10 +195,10 @@
             <div class="container p-4">
                 <!-- Section: Social media -->
                 <section class="mb-4">
-                <a class="btn btn-outline-light btn-floating m-1" href="https://www.facebook.com/webdealmarketbethune" role="button"
+                <a class="btn btn-outline-light btn-floating m-1 text-dark" href="https://www.facebook.com/webdealmarketbethune" role="button"
                     ><i class="fab fa-facebook-f"></i
                 ></a>
-                <a class="btn btn-outline-light btn-floating m-1" href="https://www.instagram.com/webdealmarket/" role="button"
+                <a class="btn btn-outline-light btn-floating m-1 text-dark" href="https://www.instagram.com/webdealmarket/" role="button"
                     ><i class="fab fa-instagram"></i
                 ></a>
                 <!-- Section: Social media -->
@@ -210,7 +227,7 @@
                             <a href="#!" class="text-white">Rechercher par marque</a>
                         </li>
                         <li>
-                            <a href="#!" class="text-white">Service de réparation</a>
+                            <a href="{{path('app_reparer')}}" class="text-white">Service de réparation</a>
                         </li>
                         <li>
                             <a href="#!" class="text-white">Revendre mon appareil</a>
@@ -293,6 +310,10 @@
             </div>
             </footer>
             <!-- Footer -->
+            <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+            <script>
+                AOS.init();
+            </script>
         {% endblock %}
     </body>
 </html>

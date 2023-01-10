@@ -1,0 +1,14 @@
+<div class="container p-4">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+                {{form_start(form, {'attr':{'class':'text-center'}})}}
+
+                {{form_label(form.isConfirmed, 'Validez ou non le rendez-vous', {'label_attr':{'class':'fw-bold text-dark'}})}}
+                {{form_widget(form.isConfirmed)}}
+                    <br/>
+                {{form_widget(form.envoyer, {'label':"Modifier", 'attr':{'class':'btn btn-outline-primary mt-3'}})}}
+                {{form_end(form, {render_rest: true})}} 
+        </div>
+    </div>
+</div>

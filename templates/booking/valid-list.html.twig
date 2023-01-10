@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }}Liste des prochains rendez-vous{% endblock %}
+
+{% block body %}
+{{ parent() }}
+    <h2 class="text-primary text-center mt-2"><strong>Liste des prochains rendez-vous<strong></h2>
+    <h4 class="text-dark text-center mt-2">Dans cette liste figurent les rendez-vous que vous avez acceptés, veillez à ne pas les oublier !</h4>
+        {% if validsBooking is empty %}
+            <div class="container text-center">
+                <h5 class="text-dark">Aucun rendez-vous n'est encore prévu !</h5> 
+            </div>  
+        {% else %}
+
+			<div class="table-responsive">
+				<table class="table table-hover">
+					<thead>
+						<tr class="fw-bold text-primary">
+                            <th scope="col">Date</th>
+							<th scope="col">Email</th>
+    						<th scope="col">Description</th>
+						</tr>
+					</thead>
+					<tbody>
+                    {% for booking in validsBooking | sort((a, b) => b.beginAt <=> a.beginAt) %}
+                        <tr>
+                            <td><strong>{{ booking.beginAt | date('d-m-Y H:i:s')}}</strong></td>
+                            <td>{{ booking.idClient.email}}</td>
+                            <td>{{ booking.description}}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>    
+            </div>
+        {% endif %}
+
+    <a href="{{ path('app_booking_index') }}">Retour à la liste</a>
+
+{% endblock %}

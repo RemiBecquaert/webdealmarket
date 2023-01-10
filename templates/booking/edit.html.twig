@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }}Modifier le rendez-vous n°{{ booking.id }}{% endblock %}
+
+{% block body %}
+{{ parent() }}
+    <h2 class="text-dark text-center mt-2"><strong><u>Modifier le rendez-vous n°{{ booking.id }}</u></strong></h2>
+    <div class="container d-flex justify-content-center">
+        <a class="text-dark mt-2" href="{{ path('app_booking_index') }}">Retour à la liste des rendez-vous</a>
+    </div>
+
+    {{ include('booking/_form_edit.html.twig', {'button_label': 'Modifier'}) }}
+
+
+    {{ include('booking/_delete_form.html.twig') }}
+{% endblock %}
