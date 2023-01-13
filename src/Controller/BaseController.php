@@ -21,4 +21,22 @@ class BaseController extends AbstractController
     {
         return $this->render('base/reparer.html.twig', []);
     }
+
+    #[Route('/mentions', name: 'app_mentions')]
+    public function mentions(): Response
+    {
+        return $this->render('base/mentions.html.twig', []);
+    }
+
+    #[Route('/cgv', name: 'app_cgv')]
+    public function cgv(): Response
+    {
+        return $this->render('base/cgv.html.twig', []);
+    }
+
+    #[Route('/politique-de-confidentialite', name: 'app_politique_confidentialite')]
+    public function politique(): Response
+    {
+        return $this->render('base/politique.html.twig', []);
+    }
 }

@@ -4,7 +4,35 @@
 
 {% block body %}
 {{ parent() }}
-<p>{{user.prenom}}</p>
-<p>{{user.nom}}</p>
-<p>{{user.email}}</p>
+
+<div class="container p-4">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+            <h2 class="text-dark text-center mt-2"><strong><u>Mes informations personnelles</u></strong></h2>
+            <ul class="list-group">
+                <li class="list-group-item list-group-item-primary">Mail : {{user.email}}</li>
+                <li class="list-group-item list-group-item-primary">Nom : {{user.nom}}</li>
+                <li class="list-group-item list-group-item-primary">Prénom: {{user.prenom}}</li>
+                <li class="list-group-item list-group-item-primary">Date de création du compte: {{user.dateCreationCompte | date('d/m/Y')}}</li>
+                <li class="list-group-item list-group-item-success">Compte validé&#9989;</li>
+            </ul>
+        </div>  
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+            <h2 class="text-dark text-center mt-2"><strong><u>Gestion de mon compte</u></strong></h2>
+            <div class="d-grid gap-4">
+                <a href="" class="btn btn-lg btn-outline-primary">Modifier mes informations personnelles</a>
+                <a href="" class="btn btn-lg btn-outline-primary">Modifier mon mot de passe</a>
+            </div>
+        </div>
+    </div>   
+</div>
+<div class="container p-4">
+    <div class="row">
+        <h5>WebDealMarket s'engage à respecter le Règlement Général sur la Protection des Données (RPGD) du 27 avril 2016.
+        Pour en savoir plus sur notre politique de traitement des données, veuillez cliquer <a href="{{path('app_mentions')}}">ici</a>.</h5>
+    </div>
+</div>
+
+
+
 {% endblock %}

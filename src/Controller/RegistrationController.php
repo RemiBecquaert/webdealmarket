@@ -49,7 +49,7 @@ class RegistrationController extends AbstractController
             // generate a signed url and email it to the user
             $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
                 (new TemplatedEmail())
-                    ->from(new Address('sasuwebdeal@gmail.com', 'Web Deal Market Vérification'))
+                    ->from(new Address('contact.webdealmarket@gmail.com', 'Web Deal Market Vérification'))
                     ->to($user->getEmail())
                     ->subject('Confirmation de votre adresse-mail')
                     ->htmlTemplate('registration/confirmation_email.html.twig')
