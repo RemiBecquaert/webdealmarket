@@ -28,7 +28,9 @@
 
                 {{form_label(registrationForm.plainPassword.first, 'Saisir un mot de passe', {'label_attr':{'class':'fw-bold text-dark'}})}}
                 {{form_widget(registrationForm.plainPassword.first, {'attr':{'class':'form-control text-dark', 'placeholder':'Mot de passe', 'maxlength':'50'}})}}
-
+                <div id="passwordHelpBlock" class="form-text text-dark">
+                Le mot de passe doit contenir au minimum 8 caractères avec un chiffre et un caractère spécial au minimum.
+                </div>
                 {{form_label(registrationForm.plainPassword.second, 'Confirmer le mot de passe', {'label_attr':{'class':'fw-bold text-dark'}})}}
                 {{form_widget(registrationForm.plainPassword.second, {'attr':{'class':'form-control text-dark', 'placeholder':'Confirmer le mot de passe', 'maxlength':'50'}})}}
 

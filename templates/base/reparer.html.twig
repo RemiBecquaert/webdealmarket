@@ -7,27 +7,34 @@
 
 <div class="container mt-4 mb-4">
     <div class="row">
-        <div class="col-lg-12">
+        <div class="col-lg-8">
             <div class="jumbotron">
-                <h2 class="text-primary display-4 text-center mt-2"><strong>Découvrez notre service de réparation !</strong></h2>
-                <p class="lead">Besoin de réparer un écran de smartphone cassé ? Nous proposons notre service de réparation d'appareils multimédia !<br/>
+                <h2 class="text-primary display-4 mt-2"><strong>Découvrez notre service de réparation !</strong></h2>
+                <p class="lead text-dark">Besoin de réparer un écran de smartphone cassé ? Nous proposons notre service de réparation d'appareils multimédia !<br/>
                 Nous réparons tout type d'appareil électronique (sauf trottinettes électriques)</p>
-                <p>N'hésitez pas à prendre rendez-vous pour faire réparer votre appareil ! (nécessite la création d'un compte client)</p>
+                <p class="text-dark">N'hésitez pas à prendre rendez-vous pour faire réparer votre appareil ! <u>(nécessite la création d'un compte client)</u></p>
                 <p class="lead">
-                    <a class="btn btn-primary btn-lg" href="{{path('app_booking_new')}}" role="button">Prendre rendez-vous</a>
+                    <a class="btn btn-primary btn-lg bg-primary text-light" href="{{path('app_booking_new')}}" role="button">Prendre rendez-vous</a>
                 </p>
             </div>
-            <h2 class="text-primary display-6 text-center mt-2">Comment se passe une demande de rendez-vous sur notre site ?&#129300;</h2>
-            <ul class="list-group">
-                <li class="list-group-item">- Créer son compte client</li>
-                <li class="list-group-item">- Se connecter à son compte client</li>
-                <li class="list-group-item">- Accéder à la page de prise de rendez-vous <a href="{{path('app_booking_new')}}">ici</a></li>
-                <li class="list-group-item">- Choisir dans la liste déroulante la raison de la prise de rendez-vous</li>
-                <li class="list-group-item">- Décrire au maximum le problème de votre appareil</li>
-                <li class="list-group-item">- Proposer une date de rendez-vous (soumise à de potentielles modifications)</li>
-            </ul>
+        </div>
+        <div class="col-lg-4 d-none d-lg-block">
+            <img src="{{asset('images/reparation.jpg')}}" style="width:150%" class="img-fluid img-thumbnail" alt="Logo présentant les réparations
+            de la boutique Web Deal Market">       
         </div>
     </div>
+</div>
+
+<div class="container p-4">
+    <h2 class="text-primary display-6 text-center mt-2">Comment se passe une demande de rendez-vous sur notre site ?&#129300;</h2>
+    <ul class="list-group">
+        <li class="list-group-item">- Créer son compte client si vous n'en possédez pas, <a href="{{path('app_register')}}">via ce lien</a></li>
+        <li class="list-group-item">- Se connecter à son compte client</li>
+        <li class="list-group-item">- Accéder à la page de prise de rendez-vous <a href="{{path('app_booking_new')}}">ici</a></li>
+        <li class="list-group-item">- Choisir dans la liste déroulante la raison de la prise de rendez-vous</li>
+        <li class="list-group-item">- Décrire au maximum le problème de votre appareil</li>
+        <li class="list-group-item">- Proposer une date de rendez-vous (soumise à de potentielles modifications)</li>
+    </ul>
 </div>
 
 {% endblock %}

@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Mime\Address;
 
 use App\Form\ContactType;
 use App\Entity\Contact;
@@ -23,10 +24,24 @@ class ContactController extends AbstractController
         if($request->isMethod('POST')){
             $form->handleRequest($request);
             if($form->isSubmitted()&&$form->isValid()){
-                $this->addFlash('notice', 'Message envoyé !');
                 $contact->setDateContact(new \Datetime());
                 $entityManagerInterface->persist($contact);
                 $entityManagerInterface->flush();
+                /*
+                $email = (new TemplatedEmail())
+                ->from(new Adress('contact.webdealmarket@gmail.com', 'Web Deal Market'))
+                ->to($contact->getEmail())
+                ->subject('Votre demande de contact')
+                ->htmlTemplate('emails/contact.html.twig')
+                ->context([
+                    'email'=> $contact->getEmail(),
+                    'dateContact'=> $contact->getDateContact(),
+                    'texte'=> $contact->getTexte(),
+                ]);
+            
+                $mailer->send($email);
+                */
+                $this->addFlash('notice', 'Message envoyé !');
                 return $this->redirectToRoute('app_contact');
             }
         }

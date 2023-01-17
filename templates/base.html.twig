@@ -17,7 +17,9 @@
         {% block body %}
             <nav class="navbar navbar-expand-lg bg-dark">
                 <div class="container-fluid">
-                    <a class="navbar-brand text-light" href="{{path('app_base')}}">Accueil</a>
+                    <a class="navbar-brand" href="{{path('app_base')}}">
+                        <img src="{{asset('images/logo.png')}}" alt="Accueil WebDealMarket" width="30" height="30">
+                    </a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
@@ -59,6 +61,7 @@
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <li><a class="dropdown-item" href="{{ path('app_liste_contact') }}">Liste des contacts</a></li>
+                                <li><a class="dropdown-item" href="{{path('app_liste_user')}}">Liste utilisateurs</a></li>
                                 <li><a class="dropdown-item" href="#">Liste des logs</a></li>
                             </ul>
                         </li>
@@ -78,7 +81,7 @@
                             <a class="nav-link active text-light" href="{{path('app_register')}}">S'inscrire</a>
                         {% endif %}
                         {% if app.user %}
-                            <a class="nav-link disabled">{{ app.user.userIdentifier }}</a>
+                            <a class="nav-link disabled text-success">{{ app.user.userIdentifier }}</a>
                             <a class="nav-link active text-light" href="{{path('app_logout')}}">Se déconnecter</a>
                         {% endif %}
                     </ul>

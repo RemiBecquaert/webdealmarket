@@ -1,0 +1,27 @@
+{% apply inline_css %}
+    <style>
+        {# here, define your CSS styles as usual #}
+        h1 {
+            color: #ff851b;
+        }
+    </style>
+    
+<h1>Confirmation de votre adresse mail</h1><br/>
+
+<p>
+Veuillez confirmer votre adresse mail au lien suivant :<br><br>
+    <a href="{{ signedUrl|raw }}">Je confirme mon adresse mail</a>.
+    Ce lien va expirer dans {{ expiresAtMessageKey|trans(expiresAtMessageData, 'VerifyEmailBundle') }}.
+</p>
+<br/>
+<p>Nous vous remercions de votre attention et à bientôt chez Web Deal Market</p> 
+<a href="https://webdealmarket.fr/">Copyright 2023 WebDealMarket</a></p><br/>
+
+{% endapply %} 
+ 
+ 
+ 
+ 
+ 
+ 
+ 

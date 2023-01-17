@@ -52,7 +52,7 @@ class RegistrationController extends AbstractController
                     ->from(new Address('contact.webdealmarket@gmail.com', 'Web Deal Market Vérification'))
                     ->to($user->getEmail())
                     ->subject('Confirmation de votre adresse-mail')
-                    ->htmlTemplate('registration/confirmation_email.html.twig')
+                    ->htmlTemplate('emails/confirmation_email.html.twig')
             );
             // do anything else you need here, like send an email
             return $this->redirectToRoute('app_login');

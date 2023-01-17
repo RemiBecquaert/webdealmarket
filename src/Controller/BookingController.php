@@ -11,6 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Mime\Address;
 use Doctrine\ORM\EntityManagerInterface;
 
 class BookingController extends AbstractController
@@ -40,12 +41,27 @@ class BookingController extends AbstractController
                 $booking->setDateCreation(new \Datetime());
                 $entityManagerInterface->persist($booking);
                 $entityManagerInterface->flush();
+                /*
+                $email = (new TemplatedEmail())
+                ->from($user->getEmail())
+                ->to('contact.webdealmarket@gmail.com')
+                ->subject('DEMANDE RÉPARATION')
+                ->htmlTemplate('emails/new_booking.html.twig')
+                ->context([
+                    'email'=> $user->getEmail(),
+                    'dateCreation'=> $booking->getDateCreation(),
+                    'dateProposition'=> $booking->getBeginAt(),
+                    'description'=> $booking->getDescription(),
+                ]);
+            
+                $mailer->send($email);
+                */
                 $this->addFlash('notice', 'La prise de rendez-vous a bien été enregistrée, nous reviendrons rapidement vers vous pour la valider !');
     
                 return $this->redirectToRoute('app_reparer', [], Response::HTTP_SEE_OTHER);
             }
         }
-        return $this->renderForm('booking/new.html.twig', ['form' => $form]);
+        return $this->renderForm('booking/new.html.twig', ['form' => $form, 'user'=>$user]);
     }
 
     #[Route('/private-show-{id}', name: 'app_booking_show', methods: ['GET'])]

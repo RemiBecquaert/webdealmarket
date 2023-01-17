@@ -14,14 +14,29 @@
                 <li class="list-group-item list-group-item-primary">Nom : {{user.nom}}</li>
                 <li class="list-group-item list-group-item-primary">Prénom: {{user.prenom}}</li>
                 <li class="list-group-item list-group-item-primary">Date de création du compte: {{user.dateCreationCompte | date('d/m/Y')}}</li>
-                <li class="list-group-item list-group-item-success">Compte validé&#9989;</li>
+                {% if user.isVerified == true %}
+                    <li class="list-group-item list-group-item-success">Compte validé&#9989;</li>
+                {% else %}    
+                    <li class="list-group-item list-group-item-danger">Compte non validé&#10060;</li>
+                {% endif %}
             </ul>
         </div>  
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
             <h2 class="text-dark text-center mt-2"><strong><u>Gestion de mon compte</u></strong></h2>
             <div class="d-grid gap-4">
-                <a href="" class="btn btn-lg btn-outline-primary">Modifier mes informations personnelles</a>
-                <a href="" class="btn btn-lg btn-outline-primary">Modifier mon mot de passe</a>
+                {% if user.isVerified == true %}
+                    <a href="{{path('app_profile-update')}}" class="btn btn-lg btn-outline-primary">Modifier mes informations personnelles</a>
+                    <a href="{{path('app_profile_update_password')}}" class="btn btn-lg btn-outline-primary">Modifier mon mot de passe</a>
+                {% else %}
+                    <form method="post" class="text-center">
+                        <input class="btn btn-lg btn-outline-danger" type="submit" value="Valider mon compte (obligatoire)" name="verification">
+                    </form>    
+                    <h5 class="text-danger">Veuillez valider votre compte en confirmant le lien reçu dans le mail que nous vous 
+                    avons envoyé à l'adresse mail que vous nous avez renseigné<br/><br/>Dans le cas où l'adresse mail que vous avez renseigné est erronnée,
+                    veuillez contacter l'administrateur du site <a href="{{path('app_contact')}}"> sur ce lien</a> afin de recréer un compte avec une 
+                    adresse mail valide et de supprimer l'ancien.
+                    </h5>
+                {% endif %}
             </div>
         </div>
     </div>   

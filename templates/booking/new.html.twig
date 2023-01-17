@@ -5,8 +5,15 @@
 {% block body %}
 {{ parent() }}
     
-        <h2 class="text-dark text-center mt-2">Créer un nouveau rendez-vous</h2>
-
+    <h2 class="text-dark text-center mt-2">Créer un nouveau rendez-vous</h2>
+    
+    {% if user.isVerified == true %}
     {{ include('booking/_form.html.twig') }}
-
+    {% else %}
+        <div class="container p-4 text-center">
+            <h5 class="text-danger">Votre compte n'est pas validé ! La prise de rendez-vous n'est pas disponible tant que votre compte n'a pas
+            été validé ! Veuillez retourner sur votre profil pour le valider</h5>
+            <a href="{{path('app_profile')}}" class="btn btn-lg btn-outline-danger">Retour au profil</a>
+        </div>
+    {% endif %}
 {% endblock %}

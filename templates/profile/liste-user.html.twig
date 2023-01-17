@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }}Liste des utilisateurs{% endblock %}
+
+{% block body %}
+{{ parent() }}
+
+	<div class="container-fluid p-4">
+        <h2 class="text-dark text-center">Liste des utilisateurs</h2>
+		<div class="row justify-content-center">
+			<div class="col-12 col-md-8 bg-white p-4 m-0 text-primary">
+                {% if users is empty %}
+                    <div class="container text-center">
+                        <h5 class="text-dark">Aucun compte utilisateur n'existe !</h5> 
+                    </div>  
+                {% else %}
+				<div class="table-responsive">
+					<table class="table table-hover">
+						<thead>
+							<tr class="fw-bold text-primary">
+                                <th scope="col">Email</th>
+								<th scope="col">Nom</th>
+								<th scope="col">Prénom</th>
+								<th scope="col">Date de création du compte</th>     
+								<th scope="col">Suppression</th>        
+							</tr>
+						</thead>
+						<tbody>
+							{% for user in users | sort((a, b) => b.dateCreationCompte <=> a.dateCreationCompte)%}
+								<tr class="{{ cycle(['table-primary', 'table-secondary'], loop.index0) }}">
+									<td>{{ user.email | lower }}</td>
+									<td>{{ user.nom | upper }}</td>
+                                    <td>{{ user.prenom | capitalize }}</td>
+                                    <td>{{ user.dateCreationCompte | date("d-m-Y à H:i:s") }}</td>
+                                    <td>
+										<a href="{{path('app_liste_user', {'id':user.id})}}" data-bs-toggle="modal" data-bs-target="#exampleModal">
+											<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+												<path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+												<path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+											</svg>
+										</a>
+                                    </td>
+								</tr>
+
+									<!-- Modal -->
+									<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+										<div class="modal-dialog">
+											<div class="modal-content">
+												<div class="modal-header">
+													<h3 class="modal-title text-danger" id="exampleModalLabel"><strong>Suppresion de l'utilisateur n°{{user.id}}</strong></h3>
+													<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+												</div>
+												<div class="modal-body">
+													<h5>Attention ! Vous allez supprimer cet utilisateur du site !</h5><br/>
+													<p class="text-dark"><i>Un email sera envoyé à son adresse mail lui indiquant la suppression du compte</i></p>
+												</div>
+												<div class="modal-footer">
+													<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Ne pas supprimer l'utilisateur</button>
+													<a class="btn btn-outline-danger" href="{{path('app_liste_user', {'id':user.id})}}">Je confirme vouloir supprimer cet utilisateur</a>
+												</div>
+											</div>
+										</div>
+									</div>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+                {% endif %}
+			</div>
+		</div>
+	</div>
+{% endblock %}
+
+

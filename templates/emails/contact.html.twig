@@ -1,0 +1,31 @@
+{% apply inline_css %}
+    <style>
+        {# here, define your CSS styles as usual #}
+        h1 {
+            color: #ff851b;
+        }
+    </style>
+
+<h1>Votre demande de contact</h1>
+
+<h2>Madame, Monsieur,</h2><br/>
+<p>Nous vous remercions d'avoir pris contact sur notre site, nous allons vous répondre dans les plus brefs délais. Voici
+un récapitulatif de votre demande de contact:
+<br/>Email: {{email}}
+<br/>Date de la demande: {{dateContact | date("d-m-Y à H:i:s") }}
+<br/>Votre texte: {{texte | nl2br}}
+
+<br/>Vous pouvez accéder à notre site directement <a href="https://webdealmarket.fr/">sur ce lien</a>.</p><br/>
+
+<br/> 
+<br/>
+<p>Nous vous remercions de votre attention et à bientôt chez Web Deal Market</p> 
+
+{% endapply %} 
+ 
+ 
+ 
+ 
+ 
+ 
+ 

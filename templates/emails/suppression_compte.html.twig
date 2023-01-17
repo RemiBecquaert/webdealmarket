@@ -1,0 +1,32 @@
+{% apply inline_css %}
+    <style>
+        {# here, define your CSS styles as usual #}
+        h1 {
+            color: #ff851b;
+        }
+    </style>
+
+<h1>Information sur la suppression de votre compte client</h1>
+
+<h2>Cher/chère client/cliente,</h2>
+<p>Nous vous informons que votre compte client du site webdealmarket.fr a été supprimé. Si vous souhaitez obtenir plus d'informations, 
+veuillez vous munir de l'adresse mail du compte supprimé et contactez-nous via le formulaire de contact disponible
+<a href="https://webdealmarket.fr/contact">sur ce lien</a>.</p><br/>
+<p>Voici quelques informations de votre ancien compte:</p>
+
+<br/>Nom: {{nom}}
+<br/>Prénom: {{prenom}}
+<br/>Email: {{email}}
+<br/>Date de création du compte: {{dateCreationCompte | date("d-m-Y à H:i:s") }}
+<br/> 
+<br/>
+<p>Nous vous remercions de votre attention et à bientôt chez Web Deal Market</p> 
+
+{% endapply %} 
+ 
+ 
+ 
+ 
+ 
+ 
+ 

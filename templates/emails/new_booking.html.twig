@@ -1,0 +1,33 @@
+{% apply inline_css %}
+    <style>
+        {# here, define your CSS styles as usual #}
+        h1 {
+            color: #ff851b;
+        }
+    </style>
+
+<h1>DEMANDE DE RÉPARATION</h1>
+
+<h2>Un client a effectué une demande de réparation de son appareil</h2><br/>
+<p>Voici le récapitulatif de sa demande
+<br/>Email: {{email}}
+<br/>Date de la demande: {{dateCreation | date("d-m-Y à H:i:s") }}
+<br/>Description du client: {{description | nl2br}}
+
+<br/><br/><b>DATE SOUHAITÉE: {{dateProposition | date("d-m-Y à H:i:s")}}</b>
+
+<br/>Acceptez-vous cette demande de réparation ?
+
+<br/>Accédez au site pour accepter ou non le rendez-vous de réparation <a href="https://webdealmarket.fr/">sur ce lien</a>.</p><br/>
+
+<br/> 
+<br/>
+
+{% endapply %} 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
