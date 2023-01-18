@@ -48,7 +48,7 @@ class ProduitController extends AbstractController
                 $this->addFlash('notice','Le produit a bien été créé !');
                 return $this->redirectToRoute('app_ajout_produit');
             }
-        }    
+        }
         return $this->render('produit/index.html.twig', ['form'=>$form->createView()]);
     }
 
@@ -59,7 +59,7 @@ class ProduitController extends AbstractController
         if($request->get('id') != null){
             $leProduitASupprimer = $entityManagerInterface->getRepository(Produit::class)->find($request->get('id'));
             $lImage = $entityManagerInterface->getRepository(Fichier::class)->find($request->get('id'));
-            $filesystem->remove('uploads/fichiers/'.$lImage);
+            $filesystem->remove('uploads/fichiers/'.$lImage());
             $entityManagerInterface->remove($leProduitASupprimer);
             $entityManagerInterface->flush();
             $this->addFlash('danger','Produit supprimé de la liste !');
