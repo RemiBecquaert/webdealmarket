@@ -3,6 +3,9 @@
 namespace App\Entity;
 
 use App\Repository\ProduitRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ProduitRepository::class)]
@@ -30,6 +33,26 @@ class Produit
 
     #[ORM\Column]
     private ?int $quantite = null;
+
+    #[ORM\Column]
+    private ?float $prix = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $subtitle = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $slug = null;
+
+    #[ORM\OneToMany(mappedBy: 'produit', targetEntity: Fichier::class, orphanRemoval: true)]
+    private Collection $illustration;
+
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $description = null;
+
+    public function __construct()
+    {
+        $this->illustration = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -92,6 +115,84 @@ class Produit
     public function setQuantite(int $quantite): self
     {
         $this->quantite = $quantite;
+
+        return $this;
+    }
+
+    public function getPrix(): ?float
+    {
+        return $this->prix;
+    }
+
+    public function setPrix(float $prix): self
+    {
+        $this->prix = $prix;
+
+        return $this;
+    }
+
+    public function getSubtitle(): ?string
+    {
+        return $this->subtitle;
+    }
+
+    public function setSubtitle(string $subtitle): self
+    {
+        $this->subtitle = $subtitle;
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Fichier>
+     */
+    public function getIllustration(): Collection
+    {
+        return $this->illustration;
+    }
+
+    public function addIllustration(Fichier $illustration): self
+    {
+        if (!$this->illustration->contains($illustration)) {
+            $this->illustration->add($illustration);
+            $illustration->setProduit($this);
+        }
+
+        return $this;
+    }
+
+    public function removeIllustration(Fichier $illustration): self
+    {
+        if ($this->illustration->removeElement($illustration)) {
+            // set the owning side to null (unless already changed)
+            if ($illustration->getProduit() === $this) {
+                $illustration->setProduit(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description): self
+    {
+        $this->description = $description;
 
         return $this;
     }

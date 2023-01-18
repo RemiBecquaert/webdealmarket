@@ -50,7 +50,7 @@ class ProfileController extends AbstractController
         return $this->render('profile/resume.html.twig', ['user'=>$user]);
     }
 
-    #[Route('/profile-update-password', name: 'app_profile_update_password', methods: ['POST'])]
+    #[Route('/profile-update-password', name: 'app_profile_update_password', methods: ['POST', 'GET'])]
     public function profilePasswordUpdate(UserPasswordHasherInterface $userPasswordHasher, Security $security, Request $request, EntityManagerInterface $entityManagerInterface): Response
     {
         $user = $security->getUser();

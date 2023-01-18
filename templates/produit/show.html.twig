@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }}Produit n°{{ produit.id }}{% endblock %}
+
+{% block body %}
+{{ parent() }}
+    <h1 class="text-primary text-center mt-2"><b>{{ produit.libelle }}</b></h1>
+
+    <div class="container p-4">
+        <div class="row">
+            <div class="col-md-12 col-lg-6 text-center">
+            {% for fichier in produit.illustration %}
+				<img class="img-thumbnail" src="{{ asset('uploads/fichiers/'~fichier.nomServeur) }}" alt="{{ produit.slug }}">
+            {% endfor %}
+            </div>
+            <div class="col-md-12 col-lg-6">
+                <h4 class="text-primary text-center mt-2"><u>Spécifications du produit</u></h4>
+
+                <ul class="list-group">
+                    <li class="list-group-item"><u>Catégorie:</u> {{produit.idCategorie.libelle}}</li>
+                    <li class="list-group-item"><u>Etat:</u> {{produit.idEtat.libelle}}</li>
+                    <li class="list-group-item"><u>Marque:</u> {{produit.idMarque.libelle}}</li>
+                    <li class="list-group-item"><u>Sous-titre:</u> {{produit.subtitle | nl2br}}</li>
+                    <li class="list-group-item"><u>Description du produit:</u> {{produit.description | nl2br}}</li>
+                    {% if produit.quantite == 0 %}
+                        <li class="list-group-item text-danger"><u>En stock:</u> {{produit.quantite}} produits restant</li>
+                    {% else %}
+                        <li class="list-group-item text-success"><u>En stock:</u> {{produit.quantite}} produits restant</li>
+                    {% endif %}
+                    <li class="list-group-item"><u>Prix affiché:</u> {{produit.prix}}€</li>
+                </ul>
+            </div>
+        </div>
+        <div class="row text-center">
+            <div class="d-grid gap-2 d-md-block">
+				<a class="btn btn-outline-warning" href="{{ path('app_produit_update', {'id': produit.id}) }}">Modifier le produit</a>
+                <a class="btn btn-outline-danger" href="{{path('app_liste_produits', {'id':produit.id})}}" data-bs-toggle="modal" data-bs-target="#exampleModal">Supprimer le produit</a><br/>
+                <a class="btn btn-outline-secondary" href="{{ path('app_liste_produits') }}">Retour à la liste des produits</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h3 class="modal-title text-danger" id="exampleModalLabel"><strong>Suppresion du produit n°{{produit.id}}</strong></h3>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<h5>Attention ! Vous allez supprimer ce produit !</h5><br/>
+    			</div>
+                <div class="modal-footer">
+        			<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Ne pas supprimer le produit</button>
+					<a class="btn btn-outline-danger" href="{{path('app_liste_produits', {'id':produit.id})}}">Je confirme vouloir supprimer ce produit</a>
+				</div>
+    		</div>
+		</div>
+    </div>
+
+{% endblock %}

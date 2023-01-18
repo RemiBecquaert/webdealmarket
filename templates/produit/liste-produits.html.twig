@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }}Liste des produits{% endblock %}
+
+{% block body %}
+{{ parent() }}
+
+	<div class="container-fluid p-4">
+        <h2 class="text-primary text-center mt-2">Liste des produits</h2>
+		<div class="row justify-content-center">
+			<!--div class="d-grid gap-2 d-md-block">
+				<button onclick="sort-by-price-asc" type="button" class="btn btn-outline-primary">Trier par prix</button>
+			</div-->
+		</div>
+		<div class="row justify-content-center">
+			<div class="col-12 col-md-8 bg-white p-4 m-0 text-primary">
+                {% if produits is empty %}
+                    <div class="container text-center">
+                        <h5 class="text-dark">Aucun produit n'a été trouvé dans la base de données !</h5> 
+                    </div>  
+                {% else %}
+				<div class="table-responsive">
+					<table class="table table-hover">
+						<thead>
+							<tr class="fw-bold text-primary">
+                                <th scope="col">Illustration</th>
+								<th scope="col">Nom</th>
+								<th scope="col">Slug</th>      
+								<th scope="col">Stocks</th>      
+								<th scope="col">Prix</th>      
+								<th scope="col">Voir</th>        
+							</tr>
+						</thead>
+						<tbody>
+							{% for produit in produits | sort((a, b) => b.libelle <=> a.libelle)%}
+								<tr class="{{ cycle(['table-primary', 'table-secondary'], loop.index0) }}">
+                                    {% for fichier in produit.illustration %}
+                                        <td>
+											<img class="img-thumbnail" src="{{ asset('uploads/fichiers/'~fichier.nomServeur) }}" alt="{{ produit.slug }}" width="30px">
+                                        </td>
+                                    {% endfor %}
+									<td>{{ produit.libelle }}</td>
+                                    <td>{{ produit.slug | lower }}</td>
+									{% if produit.quantite == 0 %}
+										<td class="text-danger">{{produit.quantite}}</td>
+									{% else %}
+										<td class="text-dark">{{produit.quantite}}</td>
+									{% endif %}                                    
+									<td>{{ produit.prix }}€</td>
+                                    <td><a href="{{path('app_produit_show', {'id':produit.id})}}"><i class="fa-solid fa-eye"></i></a></td>
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+                {% endif %}
+			</div>
+		</div>
+	</div>
+{% endblock %}

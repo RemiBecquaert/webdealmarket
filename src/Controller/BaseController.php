@@ -39,4 +39,10 @@ class BaseController extends AbstractController
     {
         return $this->render('base/politique.html.twig', []);
     }
+
+    #[Route('/private-control-panel', name: 'app_control_panel')]
+    public function controlPanel(): Response
+    {
+        return $this->render('base/control-panel.html.twig', []);
+    }
 }

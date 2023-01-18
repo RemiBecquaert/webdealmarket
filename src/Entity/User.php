@@ -48,7 +48,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $isVerified = false;
 
     #[ORM\OneToMany(mappedBy: 'idClient', targetEntity: Booking::class, orphanRemoval: true)]
-
     private Collection $bookings;
 
     public function __construct()

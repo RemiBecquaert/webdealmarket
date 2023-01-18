@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{parent()}}Modifier un produit{% endblock %}
+
+{% block body %}
+{{parent()}}
+	<div class="container text-center p-4">
+        <h2 class="text-primary text-center"><strong>Modifier un produit</strong></h2>
+            {% for fichier in produit.illustration %}
+				<img class="img-thumbnail" src="{{ asset('uploads/fichiers/'~fichier.nomServeur) }}" width="200rem" alt="{{ produit.slug }}">
+            {% endfor %}
+    </div>
+
+<div class="container m-6 p-4">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+                {{form_start(form)}}
+					<div class="row">
+						<div class="col">
+							{{form_label(form.libelle, 'Nom du produit', {'label_attr':{'class':'fw-bold text-dark'}})}}
+                			{{form_widget(form.libelle, {'attr':{'class':'form-control text-dark', 'placeholder':'Nom du produit','maxlength':'255'}})}}
+						</div>
+						<div class="col">
+							<a href="#" data-bs-toggle="tooltip" data-bs-title="Le slug est le nom du produit sans accents et les espaces
+							sont remplacés par des tirets du 6">
+							{{form_label(form.slug, 'Écrire le slug', {'label_attr':{'class':'fw-bold text-dark'}})}}
+							</a>
+               				{{form_widget(form.slug, {'attr':{'class':'form-control text-dark', 'placeholder':'Slug'}})}}
+						</div>
+					</div>
+					<div class="row">
+						<div class="col">
+							{{form_label(form.idCategorie, 'Choisir catégorie', {'label_attr':{'class':'fw-bold text-dark'}})}}
+                			{{form_widget(form.idCategorie, {'attr':{'class':'form-control text-dark', 'placeholder':'Catégorie du produit'}})}}
+						</div>
+						<div class="col">
+							{{form_label(form.idMarque, 'Choix marque', {'label_attr':{'class':'fw-bold text-dark'}})}}
+                			{{form_widget(form.idMarque, {'attr':{'class':'form-control text-dark', 'placeholder':'Marque du produit'}})}}
+						</div>
+						<div class="col">
+							{{form_label(form.idEtat, 'Choix état', {'label_attr':{'class':'fw-bold text-dark'}})}}
+                			{{form_widget(form.idEtat, {'attr':{'class':'form-control text-dark', 'placeholder':'État du produit'}})}}
+						</div>
+					</div>
+					{{form_label(form.subtitle, 'Écrivez le sous-titre du produit', {'label_attr':{'class':'fw-bold text-dark'}})}}
+					{{form_widget(form.subtitle, {'attr':{'class':'form-control text-dark', 'placeholder':'Sous titre du produit'}})}}
+
+					{{form_label(form.description, 'Description précise du produit', {'label_attr':{'class':'fw-bold text-dark'}})}}
+					{{form_widget(form.description, {'attr':{'class':'form-control text-dark', 'placeholder':'Description du produit'}})}}
+					
+					<div class="row">
+						<div class="col">
+        					{{form_label(form.prix, 'Prix de l\'article', {'label_attr':{'class':'fw-bold text-dark'}})}}
+		        			{{form_widget(form.prix, {'attr':{'class':'form-control text-dark', 'placeholder':'Prix de l\'article'}})}}
+						</div>
+						<div class="col">
+							{{form_label(form.quantite, 'Quantité en stock du produit', {'label_attr':{'class':'fw-bold text-dark'}})}}
+							{{form_widget(form.quantite, {'attr':{'class':'form-control text-dark', 'placeholder':'Quantité en stock'}})}}
+						</div>
+					</div>
+
+					{{form_widget(form.envoyer, {'label':"Modifier un produit", 'attr':{'class':'btn bg-primary mt-3 text-dark'}})}}
+                {{form_end(form, {render_rest: true})}} 
+        </div>
+    </div>
+</div>    
+
+<script>
+	const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+	const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+</script>
+
+{% endblock %}
