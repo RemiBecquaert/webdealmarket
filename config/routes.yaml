@@ -9,3 +9,10 @@ kernel:
 index:
     path: /
     controller: App\Controller\BaseController::index
+
+error_404:
+    path: /{catchall}
+    controller: App\Controller\BaseController::error404
+    requirements:
+        catchall: .*
+

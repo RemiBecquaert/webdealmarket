@@ -1,9 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ parent() }}Produit n°{{ produit.id }}{% endblock %}
+{% block title %}{{ parent() }}Voir le produit{% endblock %}
 
 {% block body %}
 {{ parent() }}
+
+{% if produit is defined %}
+
     <h1 class="text-primary text-center mt-2"><b>{{ produit.libelle }}</b></h1>
 
     <div class="container p-4">
@@ -57,5 +60,10 @@
     		</div>
 		</div>
     </div>
+{% else %}
+
+Non
+
+{% endif %}
 
 {% endblock %}

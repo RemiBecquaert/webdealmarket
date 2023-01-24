@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }}Erreur 404{% endblock %}
+
+{% block body %}
+{{ parent() }}
+
+<div class="container p-4 text-center">
+<p><i class="fa-solid fa-4 fa-10x"></i><i class="fa-solid fa-0 fa-10x"></i><i class="fa-solid fa-4 fa-10x"></i></p><br/>
+<h5>La page que vous essayez d'accéder n'existe pas !</h5>
+
+</div>
+
+{% endblock %}
