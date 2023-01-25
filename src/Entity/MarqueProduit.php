@@ -13,12 +13,13 @@ class MarqueProduit
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, unique: true)]
     private ?string $libelle = null;
 
-    #[ORM\OneToMany(mappedBy: 'idMarque', targetEntity: Produit::class)]
+    #[ORM\OneToMany(mappedBy: 'idMarque', targetEntity: Produit::class, orphanRemoval: true)]
     private Collection $produits;
 
     public function __construct()

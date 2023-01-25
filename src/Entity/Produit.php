@@ -173,10 +173,9 @@ class Produit
         return $this;
     }
 
-    public function removeIllustration(Fichier $illustration): self
+    public function removeIllustration(Fichier $illustration, Filesystem $filesystem): self
     {
         if ($this->illustration->removeElement($illustration)) {
-            // set the owning side to null (unless already changed)
             if ($illustration->getProduit() === $this) {
                 $illustration->setProduit(null);
             }

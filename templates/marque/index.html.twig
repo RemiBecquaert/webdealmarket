@@ -1,0 +1,77 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{parent()}}{% endblock %}
+
+{% block body %}
+{{parent()}}
+
+<div class="container p-4 text-center">
+    <div class="row">
+
+        <div class="col">
+            <h2>Liste des marques</h2>
+
+            {% if lesMarques is empty %}
+                <div class="container text-center">
+                    <h5 class="text-dark">Aucun rendez-vous n'est encore prévu !</h5> 
+                </div>  
+            {% else %}
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr class="fw-bold text-primary">
+                                <th scope="col">Nom de la marque</th>
+                                <th scope="col">Supprimer</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for marque in lesMarques | sort((a, b) => a.libelle <=> b.libelle) %}
+                                <tr>
+                                    <td>{{ marque.libelle}}</td>
+                                    <td><a href="{{path('app_marque', {'id':marque.id})}}" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                                                <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                                            </svg>
+                                        </a>
+                                    </td>
+                                </tr>
+                                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+										<div class="modal-dialog">
+											<div class="modal-content">
+												<div class="modal-header">
+													<h3 class="modal-title text-danger" id="exampleModalLabel"><strong>Suppression de la marque {{marque.libelle}}</strong></h3>
+													<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+												</div>
+												<div class="modal-body">
+													<h5>Vous allez supprimer cette marque du site !</h5><br/>
+													<p class="text-danger"><i>Les produits associés à cette marque seront également supprimés !</i></p>
+												</div>
+												<div class="modal-footer">
+													<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Ne pas supprimer la marque</button>
+													<a class="btn btn-outline-danger" href="{{path('app_marque', {'id':marque.id})}}">Je confirme vouloir supprimer cette marque</a>
+												</div>
+											</div>
+										</div>
+									</div>
+                            {% endfor %}
+                        </tbody>
+                    </table>    
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="col">
+            <h2>Créer une marque</h2>
+            {{form_start(form)}}
+
+                {{form_label(form.libelle, 'Ajoutez le nom de la marque', {'label_attr':{'class':'fw-bold text-dark'}})}}
+                {{form_widget(form.libelle, {'attr':{'class':'form-control text-dark', 'placeholder':'Apple, Samsung, Xiaomi...'}})}}
+
+                {{form_widget(form.ajouter, {'label':"Ajouter une marque", 'attr':{'class':'btn bg-primary mt-3 text-dark'}})}}
+            {{form_end(form, {render_rest: true})}} 
+        </div>
+    </div>
+</div>
+
+{% endblock %}

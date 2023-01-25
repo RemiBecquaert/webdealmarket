@@ -26,7 +26,6 @@ class ProduitType extends AbstractType
     {
         $builder
             ->add('libelle', TextType::class)
-            ->add('slug', TextType::class)
             ->add('idCategorie', EntityType::class, [
                 'class' => CategorieProduit::class,
                 'choice_label' => 'libelle'

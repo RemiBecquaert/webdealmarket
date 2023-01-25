@@ -32,7 +32,11 @@ class ProduitController extends AbstractController
             $form->handleRequest($request);
             if($form->isSubmitted()&&$form->isValid()){
                 $illustrations = $form->get('illustration')->getData();
+                $libelleATransformer = $form->get('libelle')->getData();
 
+                $slug = strtolower($libelleATransformer);
+                $slugFinal = str_replace(' ', '-', $slug);
+                $produit->setSlug($slugFinal);
                 foreach($illustrations as $illustration){
                     $nomIllus = md5(uniqid()).'.'.$illustration->guessExtension();
                     $illustration->move($this->getParameter('file_directory'), $nomIllus);
@@ -69,7 +73,7 @@ class ProduitController extends AbstractController
         return $this->render('produit/liste-produits.html.twig', ['produits'=>$produits]);
     }
 
-    #[Route('/private-produit-{id}', name: 'app_produit_show', methods: ['GET'])]
+    #[Route('/private-{slug}', name: 'app_produit_show', methods: ['GET'])]
     public function voirProduit(Produit $produit): Response
     {
         return $this->render('produit/show.html.twig', [
