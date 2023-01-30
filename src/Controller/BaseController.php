@@ -3,17 +3,24 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
 
+use App\Repository\ProduitRepository;
+use App\Entity\Produit;
+use Doctrine\ORM\EntityManagerInterface;
 
 class BaseController extends AbstractController
 {
     #[Route('/', name: 'app_base')]
-    public function index(): Response
+    public function index(EntityManagerInterface $entityManagerInterface, Request $request): Response
     {
-        return $this->render('base/index.html.twig', []);
+        $repoProduit = $entityManagerInterface->getRepository(Produit::class);
+        $favouriteProduct = $repoProduit->findBy(['isFavourite' => true]);
+        
+        return $this->render('base/index.html.twig', ['favouriteProduct'=>$favouriteProduct]);
     }
 
     #[Route('/reparer', name: 'app_reparer')]

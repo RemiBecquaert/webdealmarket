@@ -22,11 +22,9 @@
                 			{{form_widget(form.libelle, {'attr':{'class':'form-control text-dark', 'placeholder':'Nom du produit','maxlength':'255'}})}}
 						</div>
 						<div class="col">
-							<a href="#" data-bs-toggle="tooltip" data-bs-title="Le slug est le nom du produit sans accents et les espaces
-							sont remplacés par des tirets du 6">
-							{{form_label(form.slug, 'Écrire le slug', {'label_attr':{'class':'fw-bold text-dark'}})}}
+							{{form_label(form.isFavourite, 'Le produit doit-il être mis en avant ?', {'label_attr':{'class':'fw-bold text-dark'}})}}
 							</a>
-               				{{form_widget(form.slug, {'attr':{'class':'form-control text-dark', 'placeholder':'Slug'}})}}
+               				{{form_widget(form.isFavourite, {'attr':{'class':'form-control text-dark', 'placeholder':'Favoris'}})}}
 						</div>
 					</div>
 					<div class="row">

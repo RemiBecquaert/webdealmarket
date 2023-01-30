@@ -4,28 +4,63 @@
 
 {% block body %}
 {{ parent() }}
-    <h2 class="text-dark text-center mt-2">Modifier le rendez-vous n°{{ booking.id }}</h2>
+    <h2 class="text-dark text-center mt-2">Consulter le rendez-vous n°{{ booking.id }}</h2>
+    <div class="container p-4 text-center">
+        <div class="row">
+            <div class="col">
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <th>Nom et prénom client:</th>
+                            <td>{{ booking.idClient.nom | upper}} {{ booking.idClient.prenom}}</td>
+                        </tr>
+                        <tr>
+                            <th>Adresse mail de contact</th>
+                            <td>{{ booking.idClient.email }}</td>
+                        </tr>
+                        <tr>
+                            <th>Date souhaitée par le client</th>
+                            {% if booking.beginAt > date()  %}
+                                <td class="text-success">Date disponible: {{ booking.beginAt | date('d-m-Y H:i:s')}} <i class="fa-solid fa-thumbs-up"></i></td>
+                            {% else %}
+                                <td class="text-danger">Date non disponible: {{ booking.beginAt | date('d-m-Y H:i:s')}} <i class="fa-solid fa-ban"></i></td>
+                            {% endif %}
+                        </tr>
+                        <tr>
+                            <th>Marque</th>
+                            <td>{{ booking.marque.libelle }}</td>
+                        </tr>
+                        <tr>
+                            <th>Description</th>
+                            <td>{{ booking.description }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Rendez-vous n°</th>
-                <td>{{ booking.id }}</td>
-            </tr>
-            <tr>
-                <th>Date souhaitée</th>
-                <td>{{ booking.beginAt ? booking.beginAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
-                <td>{{ booking.description }}</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_booking_index') }}">Retour à la liste</a>
-
-    <a href="{{ path('app_booking_edit', {'id': booking.id}) }}">Valider le rendez-vous</a>
+            <div class="col">
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <a href="{{ path('app_booking_index') }}" type="button" class="m-2 btn btn-primary rounded-pill">Retour à la liste des rendez-vous</a>
+                    <a href="{{ path('app_booking_edit', {'id': booking.id}) }}" type="button" class="m-2 btn btn-success rounded-pill">Valider le rendez-vous</a>
+                </div>
+                {% if booking.beginAt > date()  %}
+                    <div class="container p-4">
+                        <h4 class="text-dark text-center"><i class="fa-regular fa-comment-medical"></i> <em>Les conseils de Rémi</em></h4>
+                        <p>Vérifiez qu'aucun autre rendez-vous n'est déjà validé au même créneau horaire, afin de ne pas créer de soucis d'organisation
+                        dans votre planning ! La liste des rendez-vous déjà validés est disponible <a href="{{path('app_booking_valids')}}">ici</a>.<br/>
+                        Une fois la vérification faite, vous pouvez valider le rendez-vous avec le bouton dédié !</p>
+                    </div>
+                {% else %}
+                    <div class="container p-4">
+                        <h2 class="text-dark text-center mt-2"><i class="fa-regular fa-comment-medical"></i> <em>Les conseils de Rémi</em></h2>
+                        <p>Ce rendez-vous n'est réellement plus possible, la date choisie est passée. Vous pouvez donc ne pas valider
+                        le rendez-vous et le supprimer. Vous aurez la possibilité de supprimer simplement le rendez-vous ou bien de le supprimer
+                        et de proposer une nouvelle date de rendez-vous.</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>    
 
     {{ include('booking/_delete_form.html.twig') }}
 {% endblock %}

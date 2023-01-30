@@ -6,6 +6,7 @@ use App\Entity\Produit;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Length;
 
 use App\Entity\EtatProduit;
 use App\Entity\MarqueProduit;
@@ -25,7 +26,16 @@ class ProduitType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('libelle', TextType::class)
+            ->add('libelle', TextType::class, [
+                'constraints' =>[
+                    new Length([
+                        'min' => 3, 
+                        'max' => 255,
+                        'minMessage' => 'Le titre de l\'article doit faire au minimum {{ limit }} caractères',
+                        'maxMessage' => 'Le titre de l\'article doit faire au maximum {{ limit }} caractères'
+                    ])
+                ]
+            ])
             ->add('idCategorie', EntityType::class, [
                 'class' => CategorieProduit::class,
                 'choice_label' => 'libelle'
@@ -38,7 +48,16 @@ class ProduitType extends AbstractType
                 'class' => EtatProduit::class,
                 'choice_label' => 'libelle'
             ])
-            ->add('subtitle', TextType::class)
+            ->add('subtitle', TextType::class, [
+                'constraints' =>[
+                    new Length([
+                        'min' => 30, 
+                        'max' => 255,
+                        'minMessage' => 'Le sous-titre doit faire au minimum {{ limit }} caractères',
+                        'maxMessage' => 'Le sous-titre doit faire au maximum {{ limit }} caractères'
+                    ])
+                ]
+            ])
             ->add('description', TextareaType::class)
             ->add('illustration', FileType::class, [
                 'label' => false,

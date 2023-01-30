@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Booking;
 use App\Entity\BookingSujet;
 use App\Entity\User;
+use App\Entity\MarqueProduit;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -28,6 +29,11 @@ class BookingType extends AbstractType
             ->add('sujetId', EntityType::class, [
                 'class' => BookingSujet::class,
                 'choice_label' => 'libelle'
+            ])
+            ->add('marque', EntityType::class, [
+                'class' => MarqueProduit::class,
+                'choice_label' => 'libelle',
+                'empty_data' => 'AUTRE'
             ])
             ->add('envoyer', SubmitType::class)
         ;

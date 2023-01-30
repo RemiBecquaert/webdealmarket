@@ -5,69 +5,7 @@
 {% block body %}
 {{ parent() }}
 
-<div class="container mt-4 mb-4 d-flex justify-content-center">
-    <h2 class="text-primary"><strong>Nos produits en vedettes</strong></h2>
-</div>
 
-
-<div class="container p-4 d-flex justify-content-center">
-    <div class="row">
-        <div class="col-sm">
-            <div class="card" style="width: 18rem;">
-            <img src="{{asset('images/logo.png')}}" class="card-img-top" alt="Logo produit">
-                <div class="card-body">
-                    <h5 class="card-title">Produit un tel</h5>
-                    <p class="card-text">Texte en attente du produit</p>
-                    <a href="#" class="btn btn-primary">Voir le produit</a>
-                </div>
-            </div>
-            <div class="card" style="width: 18rem;">
-            <img src="{{asset('images/logo.png')}}" class="card-img-top" alt="Logo produit">
-                <div class="card-body">
-                    <h5 class="card-title">Produit un tel</h5>
-                    <p class="card-text">Texte en attente du produit</p>
-                    <a href="#" class="btn btn-primary">Voir le produit</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm">
-            <div class="card" style="width: 18rem;">
-            <img src="{{asset('images/logo.png')}}" class="card-img-top" alt="Logo produit">
-                <div class="card-body">
-                    <h5 class="card-title">Produit un tel</h5>
-                    <p class="card-text">Texte en attente du produit</p>
-                    <a href="#" class="btn btn-primary">Voir le produit</a>
-                </div>
-            </div>
-            <div class="card" style="width: 18rem;">
-            <img src="{{asset('images/logo.png')}}" class="card-img-top" alt="Logo produit">
-                <div class="card-body">
-                    <h5 class="card-title">Produit un tel</h5>
-                    <p class="card-text">Texte en attente du produit</p>
-                    <a href="#" class="btn btn-primary">Voir le produit</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm">
-            <div class="card" style="width: 18rem;">
-            <img src="{{asset('images/logo.png')}}" class="card-img-top" alt="Logo produit">
-                <div class="card-body">
-                    <h5 class="card-title">Produit un tel</h5>
-                    <p class="card-text">Texte en attente du produit</p>
-                    <a href="#" class="btn btn-primary">Voir le produit</a>
-                </div>
-            </div>
-            <div class="card" style="width: 18rem;">
-            <img src="{{asset('images/logo.png')}}" class="card-img-top" alt="Logo produit">
-                <div class="card-body">
-                    <h5 class="card-title">Produit un tel</h5>
-                    <p class="card-text">Texte en attente du produit</p>
-                    <a href="#" class="btn btn-primary">Voir le produit</a>
-                </div>
-            </div>            
-        </div>
-    </div>
-</div>
 
 <div class="container mt-4 mb-4">
     <div class="row">
@@ -112,8 +50,43 @@
         </button>
     </div>
 </div>
-
-
+<div class="container mt-4 mb-4 d-flex justify-content-center">
+    <h2 class="text-primary"><strong>Nos produits en vedettes</strong></h2>
+</div>
+    <div class="container">
+		<div class="row justify-content-center">
+			<div class="col-12 col-md-8 bg-white p-4 m-0 text-primary">
+                {% if favouriteProduct is empty %}
+                    <div class="container text-center">
+                        <h5 class="text-dark">Aucun produit n'est disponible à la vente !</h5> 
+                    </div>  
+                {% else %}
+                <div class="container p-4 d-flex justify-content-center">
+                    <div class="row">
+                    {% for produit in favouriteProduct | sort((a, b) => b.prix <=> a.prix)%}
+                        <div class="card m-2" style="width: 18rem;">
+                            {% for fichier in produit.illustration %}
+						<img class="card-img-top" src="{{ asset('uploads/fichiers/'~fichier.nomServeur) }}" alt="{{ produit.slug }}">
+                        {% endfor %}   
+                            <div class="card-body">
+                                <h3 class="card-title text-dark"><b>{{produit.libelle}}</b></h3>
+								{% if produit.quantite == 0 %}
+                                    <h6 class="card-text text-danger">Rupture de stock</h6>
+                                    <button disabled>Restock prochainement</button>
+                                {% else %}    
+                                    <h6 class="card-text">En stock: {{produit.quantite}}</h6>
+                                    <h3 class="card-title pricing-card-title">{{produit.prix}}€</h3>
+                                    <a href="{{path('app_product_public', {'slug':produit.slug})}}">Voir le produit</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endfor %}    
+                    </div>
+                </div>
+                {% endif %}
+			</div>
+		</div>
+    </div>
 {% endblock %}
 
 

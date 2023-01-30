@@ -17,15 +17,19 @@
 					<thead>
 						<tr class="fw-bold text-primary">
                             <th scope="col">Date</th>
+							<th scope="col">Nom et prénom</th>
 							<th scope="col">Email</th>
+							<th scope="col">Marque de l'appareil</th>
     						<th scope="col">Description</th>
 						</tr>
 					</thead>
 					<tbody>
-                    {% for booking in validsBooking | sort((a, b) => b.beginAt <=> a.beginAt) %}
+                    {% for booking in validsBooking | sort((a, b) => a.beginAt <=> b.beginAt) %}
                         <tr>
                             <td><strong>{{ booking.beginAt | date('d-m-Y H:i:s')}}</strong></td>
+                            <td>{{ booking.idClient.nom | upper}} {{ booking.idClient.prenom}}</td>
                             <td>{{ booking.idClient.email}}</td>
+                            <td>{{ booking.marque.libelle}}</td>
                             <td>{{ booking.description}}</td>
                         </tr>
                     {% endfor %}

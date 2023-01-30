@@ -69,11 +69,11 @@
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#productNavbar" aria-controls="productNavbar" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
-                    <a class="navbar-brand text-dark" href="#">Voir tous les produits</a>
+                    <a class="navbar-brand text-dark" href="{{path('app_product_list')}}">Voir tous les produits</a>
                     <div class="collapse navbar-collapse" id="productNavbar">
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                                 <li class="nav-item">
-                                    <a class="nav-link" aria-current="page" href="#">Rechercher par marque</a>
+                                    <a class="nav-link" aria-current="page" href="{{path('app_marques')}}">Voir nos marques</a>
                                 </li>                
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Smartphones</a>
@@ -87,49 +87,36 @@
                                         <li><a class="dropdown-item" href="#">Redmi</a></li>
                                         <li><a class="dropdown-item" href="#">Blackberry</a></li>
                                     </ul>
-                                </li>
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Accessoires téléphone</a>
-                                    <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" href="#">Coques</a></li>
-                                        <li><a class="dropdown-item" href="#">Protections</a></li>
-                                        <li><a class="dropdown-item" href="#">Chargeurs</a></li>
-                                        <li><a class="dropdown-item" href="#">Écouteurs sans-fil</a></li>
-                                        <li><a class="dropdown-item" href="#">Kits main-libre</a></li>
-                                        <li><a class="dropdown-item" href="#">Câbles USB</a></li>
-                                        <li><a class="dropdown-item" href="#">Adaptateurs</a></li>
-                                        <li><a class="dropdown-item" href="#">Autres accessoires</a></li>
-                                    </ul>
                                 </li>                
                                 <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">PC portables</a>
+                                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Ordinateurs</a>
                                     <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" href="#">A compléter</a></li>
-                                    </ul>
-                                </li>
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">PC fixes</a>
-                                    <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" href="#">A compléter</a></li>
+                                        <li><a class="dropdown-item" href="#">PC fixes</a></li>
+                                        <li><a class="dropdown-item" href="#">PC portables</a></li>
                                     </ul>
                                 </li>
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Consoles</a>
                                     <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" href="#">PS4/PS3</a></li>
-                                        <li><a class="dropdown-item" href="#">Nintendo Switch/DS</a></li>
-                                        <li><a class="dropdown-item" href="#">Xbox One X/S/360</a></li>
+                                        <li><a class="dropdown-item" href="#">Sony</a></li>
+                                        <li><a class="dropdown-item" href="#">Microsoft</a></li>
+                                        <li><a class="dropdown-item" href="#">Nintendo</a></li>
                                         <li><a class="dropdown-item" href="#">Autres consoles</a></li>
                                     </ul>
                                 </li>
                                 <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Goodies</a>
+                                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Jeux vidéos</a>
                                     <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" href="#">Figurines Pop</a></li>
+                                        <li><a class="dropdown-item" href="#">Sony</a></li>
+                                        <li><a class="dropdown-item" href="#">Microsoft</a></li>
+                                        <li><a class="dropdown-item" href="#">Nintendo</a></li>
+                                    </ul>
+                                </li>                                
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Produits dérivés</a>
+                                    <ul class="dropdown-menu">
                                         <li><a class="dropdown-item" href="#">Figurines</a></li>
-                                        <li><a class="dropdown-item" href="#">Cartes à collectionner</a></li>
-                                        <li><a class="dropdown-item" href="#">Peluches</a></li>
-                                        <li><a class="dropdown-item" href="#">Autres goodies</a></li>
+                                        <li><a class="dropdown-item" href="#">Goodies</a></li>
                                     </ul>
                                 </li>                
                                 <li class="nav-item">

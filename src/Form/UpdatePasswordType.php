@@ -41,6 +41,11 @@ class UpdatePasswordType extends AbstractType
                 ],
                 'second_options' => [
                     'label' => 'Repeat Password',
+                    'constraints' => [
+                        new NotBlank([
+                            'message' => 'Veuillez entrer un mot de passe',
+                        ]),
+                    ]
                 ],
                 'invalid_message' => 'Les mots de passes ne correspondent pas',
                 // Instead of being set onto the object directly,

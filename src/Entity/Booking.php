@@ -34,6 +34,10 @@ class Booking
     #[ORM\JoinColumn(nullable: false)]
     private ?BookingSujet $sujet_id = null;
 
+    #[ORM\ManyToOne(inversedBy: 'bookings')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?MarqueProduit $marque = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -107,6 +111,18 @@ class Booking
     public function setSujetId(?BookingSujet $sujet_id): self
     {
         $this->sujet_id = $sujet_id;
+
+        return $this;
+    }
+
+    public function getMarque(): ?MarqueProduit
+    {
+        return $this->marque;
+    }
+
+    public function setMarque(?MarqueProduit $marque): self
+    {
+        $this->marque = $marque;
 
         return $this;
     }

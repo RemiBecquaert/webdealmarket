@@ -39,20 +39,14 @@ class ProduitRepository extends ServiceEntityRepository
         }
     }
 
-    public function findAllGreaterThanPrice(float $prix): array
+    public function findByMarque($value): array
     {
-        $conn = $this->getEntityManager()->getConnection();
-
-        $sql = '
-            SELECT * FROM produit p
-            WHERE p.prix > :prix
-            ORDER BY p.prix ASC
-            ';
-        $stmt = $conn->prepare($sql);
-        $resultSet = $stmt->executeQuery(['prix' => $prix]);
-
-        // returns an array of arrays (i.e. a raw data set)
-        return $resultSet->fetchAllAssociative();
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.id_marque = :val')
+            ->setParameter('val', $value)
+            ->getQuery()
+            ->getResult()
+        ;
     }
 
 

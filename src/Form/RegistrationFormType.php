@@ -22,9 +22,30 @@ class RegistrationFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('email', EmailType::class)
-            ->add('nom', TextType::class)
-            ->add('prenom', TextType::class)
+            ->add('email', EmailType::class, [
+                'constraints' => ([
+                    'min' => 6,
+                    'max' => 255,
+                    'minMessage' => 'L\'email doit comporter au minimum {{ limit }} caractères',
+                    'maxMessage' => 'L\'email doit comporter au maximum {{ limit }} caractères'
+                ])
+            ])
+            ->add('nom', TextType::class, [
+                'constraints' => ([
+                    'min' => 2,
+                    'max' => 255,
+                    'minMessage' => 'Le nom doit comporter au minimum {{ limit }} caractères',
+                    'maxMessage' => 'Le nom doit comporter au maximum {{ limit }} caractères'
+                ])
+            ])
+            ->add('prenom', TextType::class, [
+                'constraints' => ([
+                    'min' => 2,
+                    'max' => 255,
+                    'minMessage' => 'Le prénom doit comporter au minimum {{ limit }} caractères',
+                    'maxMessage' => 'Le prénom doit comporter au maximum {{ limit }} caractères'
+                ])
+            ])
             ->add('plainPassword', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'mapped' => false,

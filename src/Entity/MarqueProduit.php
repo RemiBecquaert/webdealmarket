@@ -22,9 +22,13 @@ class MarqueProduit
     #[ORM\OneToMany(mappedBy: 'idMarque', targetEntity: Produit::class, orphanRemoval: true)]
     private Collection $produits;
 
+    #[ORM\OneToMany(mappedBy: 'marque', targetEntity: Booking::class)]
+    private Collection $bookings;
+
     public function __construct()
     {
         $this->produits = new ArrayCollection();
+        $this->bookings = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -68,6 +72,36 @@ class MarqueProduit
             // set the owning side to null (unless already changed)
             if ($produit->getIdMarque() === $this) {
                 $produit->setIdMarque(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Booking>
+     */
+    public function getBookings(): Collection
+    {
+        return $this->bookings;
+    }
+
+    public function addBooking(Booking $booking): self
+    {
+        if (!$this->bookings->contains($booking)) {
+            $this->bookings->add($booking);
+            $booking->setMarque($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBooking(Booking $booking): self
+    {
+        if ($this->bookings->removeElement($booking)) {
+            // set the owning side to null (unless already changed)
+            if ($booking->getMarque() === $this) {
+                $booking->setMarque(null);
             }
         }
 

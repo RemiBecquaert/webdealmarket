@@ -13,7 +13,7 @@
 			</div-->
 		</div>
 		<div class="row justify-content-center">
-			<div class="col-12 col-md-8 bg-white p-4 m-0 text-primary">
+			<div class="col text-primary">
                 {% if produits is empty %}
                     <div class="container text-center">
                         <h5 class="text-dark">Aucun produit n'a été trouvé dans la base de données !</h5> 
@@ -47,6 +47,11 @@
 										<td class="text-dark">{{produit.quantite}}</td>
 									{% endif %}                                    
 									<td>{{ produit.prix }}€</td>
+                                {% if produit.isFavourite == true  %}
+									<td class="text-success">Est en avant</td>
+								{% else %}
+									<td class="text-danger">N'est pas en avant</td>
+								{% endif %}
                                     <td><a href="{{path('app_produit_show', {'slug':produit.slug})}}"><i class="fa-solid fa-eye"></i></a></td>
 								</tr>
 							{% endfor %}
@@ -54,6 +59,14 @@
 					</table>
 				</div>
                 {% endif %}
+			</div>
+			<div class="col">
+			    <div class="container p-4">
+                    <h4 class="text-dark text-center"><i class="fa-regular fa-comment-medical"></i> <em>Les conseils de Rémi</em></h4>
+                    <p>Il est conseillé de n'afficher que 6 à 9 produits en vedette.<br/> Ainsi, dès que vous souhaitez ajouter un produit en vedette,
+					vous pouvez enlever un produit déjà en vedette en cliquant sur le petit <i class="fa-solid fa-eye"></i> correspondant.
+					</p>
+                </div>
 			</div>
 		</div>
 	</div>

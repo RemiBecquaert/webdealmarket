@@ -7,6 +7,9 @@
                 {{form_label(form.sujetId, 'Indiquez-nous le sujet de la prise de rendez-vous', {'label_attr':{'class':'fw-bold text-dark'}})}}
                 {{form_widget(form.sujetId, {'attr':{'class':'form-control text-dark', 'placeholder':'Sujet de la demande de rendez-vous'}})}}
 
+                {{form_label(form.marque, 'Choisissez la marque de votre appareil', {'label_attr':{'class':'fw-bold text-dark'}})}}
+                {{form_widget(form.marque, {'attr':{'class':'form-control text-dark', 'placeholder':'Marque de l\'appareil'}})}}
+
                 {{form_label(form.description, 'Décrivez-nous le problème de votre appareil ainsi que son modèle', {'label_attr':{'class':'fw-bold text-dark'}})}}
                 {{form_widget(form.description, {'attr':{'class':'form-control text-dark', 'placeholder':'L\'écran de mon appareil est cassé, la batterie semble défectueuse...'}})}}
 

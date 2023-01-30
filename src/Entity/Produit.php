@@ -49,6 +49,9 @@ class Produit
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
 
+    #[ORM\Column]
+    private ?bool $isFavourite = null;
+
     public function __construct()
     {
         $this->illustration = new ArrayCollection();
@@ -192,6 +195,18 @@ class Produit
     public function setDescription(string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function isIsFavourite(): ?bool
+    {
+        return $this->isFavourite;
+    }
+
+    public function setIsFavourite(bool $isFavourite): self
+    {
+        $this->isFavourite = $isFavourite;
 
         return $this;
     }

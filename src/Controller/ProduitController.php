@@ -10,18 +10,23 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\Security\Core\Security;
 use App\Repository\FichierRepository;
+use App\Repository\MarqueProduitRepository;
+
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Path;
 
 use App\Entity\Produit;
+use App\Entity\MarqueProduit;
 use App\Entity\Fichier;
 use App\Form\ProduitType;
 use App\Form\UpdateProduitType;
 
 class ProduitController extends AbstractController
 {
+    /*DEBUT DES FONCTIONS ADMIN*/
     #[Route('/private-ajout-produit', name: 'app_ajout_produit')]
     public function creerProduit(Security $security, Request $request, EntityManagerInterface $entityManagerInterface): Response
     {
@@ -35,8 +40,18 @@ class ProduitController extends AbstractController
                 $libelleATransformer = $form->get('libelle')->getData();
 
                 $slug = strtolower($libelleATransformer);
-                $slugFinal = str_replace(' ', '-', $slug);
+                $search = array('À','Á','Â','Ã','Ä','Å','Ç','È','É','Ê','Ë','Ì',
+                'Í','Î','Ï','Ò','Ó','Ô','Õ','Ö','Ù','Ú','Û','Ü','Ý','à',
+                'á','â','ã','ä','å','ç','è','é','ê','ë','ì','í','î','ï','ð',
+                'ò','ó','ô','õ','ö','ù','ú','û','ü','ý','ÿ', ' ');
+                $remplace = array('A','A','A','A','A','A','C','E','E','E','E','I',
+                'I','I','I','O','O','O','O','O','U','U','U','U','Y','a','a','a',
+                'a','a','a','c','e','e','e','e','i','i','i','i','o','o',
+                'o','o','o','o','u','u','u','u','y','y','-');
+                $subject = $slug;
+                $slugFinal = str_replace($search, $remplace, $subject);
                 $produit->setSlug($slugFinal);
+                $produit->setIsFavourite(false);
                 foreach($illustrations as $illustration){
                     $nomIllus = md5(uniqid()).'.'.$illustration->guessExtension();
                     $illustration->move($this->getParameter('file_directory'), $nomIllus);
@@ -57,7 +72,7 @@ class ProduitController extends AbstractController
     }
 
     #[Route('/private-liste-produits', name: 'app_liste_produits')]
-    public function listeProduit(Filesystem $filesystem, EntityManagerInterface $entityManagerInterface, Request $request): Response
+    public function listeProduitAdmin(Filesystem $filesystem, EntityManagerInterface $entityManagerInterface, Request $request): Response
     {
         $repoProduit = $entityManagerInterface->getRepository(Produit::class);
         if($request->get('id') != null){
@@ -73,8 +88,8 @@ class ProduitController extends AbstractController
         return $this->render('produit/liste-produits.html.twig', ['produits'=>$produits]);
     }
 
-    #[Route('/private-{slug}', name: 'app_produit_show', methods: ['GET'])]
-    public function voirProduit(Produit $produit): Response
+    #[Route('/private/product/{slug}', name: 'app_produit_show', methods: ['GET'])]
+    public function voirProduitAdmin(string $slug, Request $request, Produit $produit): Response
     {
         return $this->render('produit/show.html.twig', [
             'produit' => $produit,
@@ -100,11 +115,43 @@ class ProduitController extends AbstractController
         ]);
     }
 
-    /*public function sortByPrice(Request $request): JsonResponse
-    {
-        $sortOrder = $request->query->get('sortOrder');
-        $products = $this->getDoctrine()->getRepository(Produit::class)->findBy(array(), array('price' => $sortOrder));
+    /*FIN DES FONCTIONS ADMIN*/
 
-        return new JsonResponse($products);
-    }*/
+    /*DÉBUT DES FONCTIONS UTILISATEURS*/
+
+    #[Route('/product/{slug}', name: 'app_product_public', methods: ['GET'])]
+    public function voirProduit(Request $request, Produit $produit): Response
+    {
+        return $this->render('produit/produitById.html.twig', [
+            'produit' => $produit,
+        ]);
+    }
+
+    #[Route('/nos-produits', name: 'app_product_list')]
+    public function listeProduit(EntityManagerInterface $entityManagerInterface): Response
+    {
+        $repoProduit = $entityManagerInterface->getRepository(Produit::class);
+        $produits = $repoProduit->findAll();
+        return $this->render('produit/produitList.html.twig', ['produits'=>$produits]);
+    }
+
+    #[Route('/nos-produits/{libelle}', name: 'app_product_marque')]
+    public function voirByMarque(MarqueProduit $marque, Request $request, EntityManagerInterface $entityManagerInterface): Response
+    {
+        
+        return $this->render('produit/produitList.html.twig', ['produits'=>$marque->getProduits()]);
+    }
+
+    #[Route('/marques', name: 'app_marques')]
+    public function listeMarque(EntityManagerInterface $entityManagerInterface): Response
+    {
+        $repoMarques = $entityManagerInterface->getRepository(MarqueProduit::class);
+        $marques = $repoMarques->findAll();
+        return $this->render('produit/marqueList.html.twig', ['marques'=>$marques]);
+    }
+
+
+
+    /*FIN DES FONCTIONS UTILISATEURS*/
+
 }

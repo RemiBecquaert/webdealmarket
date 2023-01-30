@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }}Nos marques{% endblock %}
+
+{% block body %}
+{{parent()}}
+<div class="container p-4">
+
+{% for marque in marques %}
+<a class="btn btn-primary m-2" href="{{ path('app_product_marque', {'libelle': marque.libelle}) }}">{{marque.libelle}}</a>
+
+{% endfor %}        
+
+</div>
+
+
+{% endblock %}
