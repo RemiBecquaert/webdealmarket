@@ -23,28 +23,31 @@ class RegistrationFormType extends AbstractType
     {
         $builder
             ->add('email', EmailType::class, [
-                'constraints' => ([
+                'constraints' => [
+                    new Length([
                     'min' => 6,
                     'max' => 255,
                     'minMessage' => 'L\'email doit comporter au minimum {{ limit }} caractères',
                     'maxMessage' => 'L\'email doit comporter au maximum {{ limit }} caractères'
-                ])
+                ])]
             ])
             ->add('nom', TextType::class, [
-                'constraints' => ([
+                'constraints' => [
+                    new Length([
                     'min' => 2,
                     'max' => 255,
                     'minMessage' => 'Le nom doit comporter au minimum {{ limit }} caractères',
                     'maxMessage' => 'Le nom doit comporter au maximum {{ limit }} caractères'
-                ])
+                ])]
             ])
             ->add('prenom', TextType::class, [
-                'constraints' => ([
+                'constraints' => [
+                    new Length([
                     'min' => 2,
                     'max' => 255,
                     'minMessage' => 'Le prénom doit comporter au minimum {{ limit }} caractères',
                     'maxMessage' => 'Le prénom doit comporter au maximum {{ limit }} caractères'
-                ])
+                ])]
             ])
             ->add('plainPassword', RepeatedType::class, [
                 'type' => PasswordType::class,

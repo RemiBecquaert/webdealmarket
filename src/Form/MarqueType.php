@@ -18,12 +18,13 @@ class MarqueType extends AbstractType
     {
         $builder
             ->add('libelle', TextType::class, [
-                'constraints' => ([
+                'constraints' => [
+                    new Length([
                     'min' => 3,
                     'max' => 255,
                     'minMessage' => 'Le nom doit comporter au minimum {{ limit }} caractères',
                     'maxMessage' => 'Le nom doit comporter au maximum {{ limit }} caractères'
-                ])
+                ])]
             ])
             ->add('ajouter', SubmitType::class)
         ;

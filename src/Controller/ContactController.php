@@ -12,11 +12,13 @@ use App\Form\ContactType;
 use App\Entity\Contact;
 use Doctrine\ORM\EntityManagerInterface;
    
+use Symfony\Component\Validator\Validator\ValidatorInterface;
+
 
 class ContactController extends AbstractController
 {
     #[Route('/contact', name: 'app_contact')]
-    public function prendreContact(Request $request, EntityManagerInterface $entityManagerInterface): Response
+    public function prendreContact(Request $request, EntityManagerInterface $entityManagerInterface, ValidatorInterface $validator): Response
     {
         $contact = new Contact();
         $form = $this->createForm(ContactType::class, $contact);
@@ -24,27 +26,29 @@ class ContactController extends AbstractController
         if($request->isMethod('POST')){
             $form->handleRequest($request);
             if($form->isSubmitted()&&$form->isValid()){
-                $contact->setDateContact(new \Datetime());
-                $entityManagerInterface->persist($contact);
-                $entityManagerInterface->flush();
-                /*
-                $email = (new TemplatedEmail())
-                ->from(new Adress('contact.webdealmarket@gmail.com', 'Web Deal Market'))
-                ->to($contact->getEmail())
-                ->subject('Votre demande de contact')
-                ->htmlTemplate('emails/contact.html.twig')
-                ->context([
-                    'email'=> $contact->getEmail(),
-                    'dateContact'=> $contact->getDateContact(),
-                    'texte'=> $contact->getTexte(),
-                ]);
-            
-                $mailer->send($email);
-                */
-                $this->addFlash('notice', 'Message envoyé !');
-                return $this->redirectToRoute('app_contact');
+                    $contact->setDateContact(new \Datetime());
+                    $entityManagerInterface->persist($contact);
+                    $entityManagerInterface->flush();
+                    /*
+                    $email = (new TemplatedEmail())
+                    ->from(new Adress('contact.webdealmarket@gmail.com', 'Web Deal Market'))
+                    ->to($contact->getEmail())
+                    ->subject('Votre demande de contact')
+                    ->htmlTemplate('emails/contact.html.twig')
+                    ->context([
+                        'email'=> $contact->getEmail(),
+                        'dateContact'=> $contact->getDateContact(),
+                        'texte'=> $contact->getTexte(),
+                    ]);
+                
+                    $mailer->send($email);
+                    */
+                    $this->addFlash('notice', 'Message envoyé !');
+                    return $this->redirectToRoute('app_contact');
+                }else{
+                    $this->addFlash('danger', 'Formulaire de contact invalide, échec de l\'envoi !');
+                }
             }
-        }
         return $this->render('contact/prendrecontact.html.twig', [ 'form' => $form->createView()]);
     }
 

@@ -24,21 +24,23 @@ class UserUpdateType extends AbstractType
         $builder
             ->add('nom', TextType::class, [
                 'empty_data' => User::class,
-                'constraints' => ([
+                'constraints' => [
+                    new Length([
                     'min' => 2,
                     'max' => 255,
                     'minMessage' => 'Le nom doit contenir au minimum {{ limit }} caractères',
                     'maxMessage' => 'Le nom doit contenir au maximum {{ limit }} caractères'
-                ])
+                ])]
             ])
             ->add('prenom', TextType::class, [
                 'empty_data' => User::class,
-                'constraints' => ([
+                'constraints' => [
+                    new Length([
                     'min' => 2,
                     'max' => 255,
                     'minMessage' => 'Le prénom doit contenir au minimum {{ limit }} caractères',
                     'maxMessage' => 'Le prénom doit contenir au maximum {{ limit }} caractères'
-                ])
+                ])]
             ])
             ->add('envoyer', SubmitType::class)
             ;

@@ -46,13 +46,13 @@
                 {{form_start(form, {'attr':{'class':'text-center'}})}}
 
                 {{form_label(form.email, 'Saisir votre adresse-mail', {'label_attr':{'class':'fw-bold text-dark'}})}}
-                {{form_widget(form.email, {'attr':{'class':'form-control text-dark', 'placeholder':'Votre adresse-mail', 'maxlength':'80', 'type':'email'}})}}
+                {{form_widget(form.email, {'attr':{'class':'form-control text-dark', 'placeholder':'Votre adresse-mail', 'minlength':'6', 'maxlength':'80', 'type':'email'}})}}
 
                 {{form_label(form.nom, 'Saisir votre nom', {'label_attr':{'class':'fw-bold text-dark'}})}}
-                {{form_widget(form.nom, {'attr':{'class':'form-control text-dark', 'placeholder':'Votre nom', 'maxlength':'50'}})}}
+                {{form_widget(form.nom, {'attr':{'class':'form-control text-dark', 'placeholder':'Votre nom', 'minlength':'2', 'maxlength':'255'}})}}
 
                 {{form_label(form.prenom, 'Saisir votre prénom', {'label_attr':{'class':'fw-bold text-dark'}})}}
-                {{form_widget(form.prenom, {'attr':{'class':'form-control text-dark', 'placeholder':'Votre prénom', 'maxlength':'50'}})}}
+                {{form_widget(form.prenom, {'attr':{'class':'form-control text-dark', 'placeholder':'Votre prénom', 'minlength':'2', 'maxlength':'50'}})}}
 
                 {{form_label(form.idSujet, 'Objet du message', {'label_attr':{'class':'fw-bold text-dark'}})}}
                 {{form_widget(form.idSujet, {'attr':{'class':'form-control text-dark', 'placeholder':'Objet', 'maxlength':'100'}})}}
@@ -65,4 +65,14 @@
         </div>
     </div>
 </div>
+
+<script>
+
+var form = document.getElementsByTagName('form')[0];
+var nom = document.getElementById('nom');
+var prenom = document.getElementById('prenom');
+
+
+
+</script>
 {% endblock %}
