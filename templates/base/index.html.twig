@@ -4,52 +4,16 @@
 
 {% block body %}
 {{ parent() }}
-
-
-
-<div class="container mt-4 mb-4">
-    <div class="row">
-        <div class="col-lg-8">
-            <div class="jumbotron">
-                <h1 class="display-4 text-primary">Nous rachetons votre appareil multimédia !</h1>
-                <p class="lead">Grâce à notre simulateur de reprise, nous pouvons reprendre votre appareil sans bouger de chez vous ! Smartphones, ordinateurs,
-                consoles... nous reprenons tout type d'appareil !</p>
-                <hr class="my-4">
-                <p>Faites un geste pour la planète, ne jeter pas votre appareil, revendez le pour lui donner une deuxième vie !</p>
-                <p class="lead">
-                    <a class="btn btn-primary btn-lg" href="#" role="button">Commencer l'estimation de mon appareil</a>
-                </p>
-            </div>
-        </div>
-        <div class="col-lg-4 d-none d-lg-block">
-            <img src="{{asset('images/logo.png')}}" style="width:150%" class="img-fluid img-thumbnail" alt="Web Deal Market">
-        </div>
-    </div>
-</div>
-
 <div class="container p-4">
-    <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <img src="{{asset('images/reprise_1.jpg')}}" class="d-block w-100" alt="Nous reprenons vos appareils multimédias chez Web Deal Market !">
-            </div>
-            <div class="carousel-item">
-                <img src="{{asset('images/ouverture.jpg')}}" class="d-block w-100" alt="Le magasin est ouvert du lundi au samedi de 10h à 12h et de 14h à 19h !">
-            </div>
-            <div class="carousel-item">
-                <img src="{{asset('images/reparation_1.jpg')}}" class="d-block w-100" alt="Web Deal Market, expert en réparation de smartphones !">
-            </div>
-        </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-        </button>
+    <div class="jumbotron">
+        <h1 class="display-4 text-primary">Web Deal Market, votre boutique multimédia</h1>
+        <p class="lead">Nous vous proposons une large gamme de produits multimédias neufs ou d'occasion (téléphones, ordinateurs, consoles de jeux, télévisions...),
+        mais également de produits éléctoménagers ou encore des goodies et des figurines iconiques !</p>
+        <hr class="my-4">
+            <p>Découvrez également nos services de reprise et de réparation de votre appareil !</p>
     </div>
 </div>
+
 <div class="container mt-4 mb-4 d-flex justify-content-center">
     <h2 class="text-primary"><strong>Nos produits en vedettes</strong></h2>
 </div>
@@ -87,6 +51,50 @@
 			</div>
 		</div>
     </div>
+
+<div class="container mt-4 mb-4">
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="jumbotron">
+                <h1 class="display-4 text-primary">Nous rachetons votre appareil multimédia !</h1>
+                <p class="lead">Grâce à notre simulateur de reprise, nous pouvons reprendre votre appareil sans bouger de chez vous ! Smartphones, ordinateurs,
+                consoles... nous reprenons tout type d'appareil !</p>
+                <hr class="my-4">
+                <p>Faites un geste pour la planète, ne jeter pas votre appareil, revendez le pour lui donner une deuxième vie !</p>
+                <p class="lead">
+                    <a class="btn btn-primary btn-lg" href="#" role="button">Commencer l'estimation de mon appareil</a>
+                </p>
+            </div>
+        </div>
+        <div class="col-lg-4 d-none d-lg-block">
+            <img src="{{asset('images/logo.png')}}" style="width:150%" class="img-fluid img-thumbnail" alt="Web Deal Market">
+        </div>
+    </div>
+</div>
+
+<!--div class="container p-4">
+    <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="{{asset('images/reprise_1.jpg')}}" class="d-block w-100" alt="Nous reprenons vos appareils multimédias chez Web Deal Market !">
+            </div>
+            <div class="carousel-item">
+                <img src="{{asset('images/ouverture.jpg')}}" class="d-block w-100" alt="Le magasin est ouvert du lundi au samedi de 10h à 12h et de 14h à 19h !">
+            </div>
+            <div class="carousel-item">
+                <img src="{{asset('images/reparation_1.jpg')}}" class="d-block w-100" alt="Web Deal Market, expert en réparation de smartphones !">
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+</div-->
 {% endblock %}
 
 

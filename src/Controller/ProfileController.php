@@ -120,8 +120,6 @@ class ProfileController extends AbstractController
                 $entityManagerInterface->persist($user);
                 $entityManagerInterface->flush();
                 
-
-                
                 $this->addFlash('success', 'Vos informations personnelles ont bien été modifiées !');
                 return $this->redirectToRoute('app_profile');
             }
