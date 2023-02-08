@@ -39,7 +39,7 @@ class ProduitRepository extends ServiceEntityRepository
         }
     }
 
-    public function findByMarque($value): array
+    public function findByMarque(mixed $value): array
     {
         return $this->createQueryBuilder('p')
             ->andWhere('p.id_marque = :val')

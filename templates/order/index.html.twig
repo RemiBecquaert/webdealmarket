@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{parent()}}Passer commande{% endblock %}
+
+{% block body %}
+{{parent()}}
+
+<div class="container p-4">
+    <h2 class="text-center">Passez votre commande</h2><hr>
+    <div class="row">
+        <div class="col-md-6 p-4">
+            {% set formHtml %}
+                {{form_start(form, {action:path('app_order_recap'), 'method': 'POST'})}}
+
+                <div class="container m-3 bg-light">
+                    <i class="fa-regular fa-house"></i> 1. {{form_label(form.addresses, 'Choisissez l\'adresse de livraison', {'label_attr':{'class':'fw-bold text-dark'}})}}
+                    {{form_widget(form.addresses)}}
+                </div>
+                <div class="container m-3 bg-light">
+                    <i class="fa-regular fa-truck"></i> 2. {{form_label(form.carriers, 'Choisissez le transporteur', {'label_attr':{'class':'fw-bold text-dark'}})}}
+                    {{form_widget(form.carriers)}}            
+                </div>
+
+                <div class="text-center">
+                    {{form_widget(form.submit, {'label':"Valider ma commande", 'attr':{'class':'btn btn-success mt-3'}})}}
+                </div>    
+
+                {{form_end(form, {render_rest: true})}}
+            {% endset %}
+
+            {{ formHtml | replace ({'[br]' : '<br/>', '[b]' : '<b>', '[/b]' : '</b>', '[em]' : '<em>', '[/em]' : '</em>'}) | raw }}
+        
+        </div>
+        <div class="col-md-6 p-4">
+            <h4 class="text-center"><i class="fa-regular fa-cart-shopping"></i> Récapitulatif de votre panier</h4>
+                {% for produit in cart %}
+                    <div class="row">
+                        <div class="col bg-light">
+                            {% for fichier in produit.produit.illustration %}
+                                <img class="img-thumbnail" src="{{ asset('uploads/fichiers/'~fichier.nomServeur) }}" alt="{{ produit.produit.slug }}" width="50px">
+                            {% endfor %}
+                            <h5 class="text-center">{{ produit.produit.libelle }}</h5>
+                            <p class="mb-0 opacity-75">Nombre de produits choisis: x{{produit.quantity}}</p>
+                        </div>
+                    </div>
+                {% endfor %}
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}

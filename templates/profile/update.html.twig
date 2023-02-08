@@ -9,7 +9,7 @@
 <div class="container mt-4 mb-4">
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <h2 class="text-primary text-center"><strong>Modifier vos informations</strong></h2>
+            <h2><strong>Modifier vos informations</strong></h2>
             <hr class="featurette-divider text-light">    
                 {{form_start(form, {'attr':{'class':'text-center'}})}}
 
@@ -19,9 +19,12 @@
                 {{form_label(form.prenom, 'Saisir votre prénom', {'label_attr':{'class':'fw-bold text-dark'}})}}
                 {{form_widget(form.prenom, {'attr':{'class':'form-control text-dark', 'placeholder':'Votre prénom', 'maxlength':'50'}})}}
 
-                {{form_widget(form.envoyer, {'label':"Modifier mes informations", 'attr':{'class':'btn btn-outline-primary mt-3'}})}}
+                {{form_widget(form.envoyer, {'label':"Modifier mes informations", 'attr':{'class':'btn btn-lg btn-outline-primary mt-3'}})}}
                 {{form_end(form, {render_rest: true})}} 
         </div>
     </div>
+    <a href="{{path('app_profile')}}" class="btn btn-lg btn-outline-primary">Retour au profil</a>
 </div>
+
+
 {% endblock %}

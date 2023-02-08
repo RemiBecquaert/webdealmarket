@@ -58,6 +58,13 @@ class Cart{
         return $cart;
     }
 
+    public function getById($id){
+        $session = $this->requestStack->getSession();
+        $cart = $session->get('cart', []);
+
+        return $cart[$id];
+    }
+
     /*cette fonction nous permet d'afficher tous les produits contenus dans le panier
     on crée un tableau vide cartComplete, si on récupère le tableau associatif cart contenu dans la session de l'utilisateur,
     on boucle pour chaque produit dans le tableau associatif cart

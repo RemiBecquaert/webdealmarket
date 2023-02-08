@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{parent()}}Paiement de ma commande{% endblock %}
+
+{% block body %}
+{{parent()}}
+
+{% set total = null %}
+
+<div class="container p-4">
+    <h2 class="text-center">Mon récapitulatif de commande</h2><hr>
+    <h5 class="text-center">Vérifiez vos informations avant de régler votre commande</h5>
+
+    <div class="row">
+        <div class="col-md-6 p-4">
+
+            {% if carrier.nom == 'Click and Collect' %}
+                <h5>Choix de retrait du colis: <br/>{{carrier.nom}}</h5>
+                <small>Frais: {{carrier.prix}}€</small>
+            {% else %}
+                <h4><i class="fa-regular fa-truck"></i> Transporteur choisi: <br/>{{carrier.nom}}</h4>
+                <p>{{carrier.description}}</p>
+                <small>Frais de livraison: {{carrier.prix}}€</small>
+
+                <hr>
+                <h4><i class="fa-regular fa-house"></i> Adresse de livraison: <br/></h4>
+                <h6>{{adresse.address}}<br/>{{adresse.postal}} {{adresse.city}}<br/>{{adresse.country}}</h6>
+            {% endif %}
+        </div>
+        <div class="col-md-6 p-4">
+            <h4 class="text-center"><i class="fa-regular fa-cart-shopping"></i> Récapitulatif de votre panier</h4>
+                {% for produit in cart %}
+                    <div class="row">
+                        <div class="col bg-light">
+                            {% for fichier in produit.produit.illustration %}
+                                <img class="img-thumbnail" src="{{ asset('uploads/fichiers/'~fichier.nomServeur) }}" alt="{{ produit.produit.slug }}" width="50px">
+                            {% endfor %}
+                            <h5 class="text-center">{{ produit.produit.libelle }}</h5>
+                            <small>Nombre de produits choisis: x{{produit.quantity}} <br/>{{ ((produit.produit.prix * produit.quantity)) }}€</small>
+                        </div>
+                    </div>
+                    {% set total = total + (produit.produit.prix * produit.quantity) %}
+                {% endfor %}
+
+                <hr>
+                <strong>Sous-total: </strong>{{total}}€<br/>
+                <strong>Livraison: </strong>{{carrier.prix}}€
+                <hr>
+                <strong>Total: </strong>{{ ((total + carrier.prix)) }}€ TTC<br/>
+            <a href="#" class="btn btn-success btn-block">Payer ma commande</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

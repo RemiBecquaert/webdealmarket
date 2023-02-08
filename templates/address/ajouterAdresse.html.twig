@@ -1,0 +1,103 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{parent()}}Ajouter une adresse{% endblock %}
+
+{% block body %}
+{{parent()}}
+
+<div class="container p-4">
+    <div class="row">
+        <div class="col-12 col-md-8">    
+            <div class="container text-center">
+                <h3><strong>Ajouter une adresse</strong></h3>
+            </div>
+                {{form_start(form, {'attr':{'class':'text-center'}})}}
+                    <div class="container p-4">
+                        <div class="row">
+                            <div class="col-12 col-md-4">
+                                {{form_label(form.name, 'Libellé de votre adresse', {'label_attr':{'class':'fw-bold text-dark'}})}}
+                                {{form_widget(form.name, {'attr':{'class':'form-control text-dark', 'placeholder':'Domicile, ami...'}})}}
+                            </div>
+                            <div class="col-12 col-md-4">
+                                {{form_label(form.firstname, 'Votre nom', {'label_attr':{'class':'fw-bold text-dark'}})}}
+                                {{form_widget(form.firstname, {'id':'firstname', 'attr':{'class':'form-control text-dark', 'placeholder':'Votre nom'}})}}
+                            </div>
+                            <div class="col-12 col-md-4">
+                                {{form_label(form.lastname, 'Votre prénom', {'label_attr':{'class':'fw-bold text-dark'}})}}
+                                {{form_widget(form.lastname, {'id':'lastname', 'attr':{'class':'form-control text-dark', 'placeholder':'Votre prénom'}})}}
+                            </div>
+                        </div>
+
+                        {{form_label(form.company, 'Entreprise', {'label_attr':{'class':'fw-bold text-dark'}})}}
+                        {{form_widget(form.company, {'id':'company','attr':{'class':'form-control text-dark', 'placeholder':'Entreprise (facultatif)'}})}}
+                    
+                    </div>
+ 
+                    <div class="container p-4">
+                        <div class="row">
+                            <div class="col-12 col-md-4">
+                                {{form_label(form.address, 'Votre adresse', {'label_attr':{'class':'fw-bold text-dark'}})}}
+                                {{form_widget(form.address, {'id':'address', 'attr':{'class':'form-control text-dark', 'placeholder':'Votre adresse'}})}}
+                            </div>
+                            <div class="col-12 col-md-4">
+                                {{form_label(form.postal, 'Code postal', {'label_attr':{'class':'fw-bold text-dark'}})}}
+                                {{form_widget(form.postal, {'id':'postal', 'attr':{'class':'form-control text-dark', 'placeholder':'Code postal'}})}}
+                            </div>
+                            <div class="col-12 col-md-4">
+                                {{form_label(form.city, 'Ville', {'label_attr':{'class':'fw-bold text-dark'}})}}
+                                {{form_widget(form.city, {'id':'city', 'attr':{'class':'form-control text-dark', 'placeholder':'Ville'}})}}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12 col-md-6">        
+                                {{form_label(form.country, 'Pays', {'label_attr':{'class':'fw-bold text-dark'}})}}
+                                {{form_widget(form.country, {'id':'country', 'attr':{'class':'form-control text-dark', 'placeholder':'Pays'}})}}
+                            </div>
+                            <div class="col-12 col-md-6">
+                                {{form_label(form.phone, 'Numéro de téléphone', {'label_attr':{'class':'fw-bold text-dark'}})}}
+                                {{form_widget(form.phone, {'id':'phone', 'attr':{'class':'form-control text-dark', 'placeholder':'Numéro de téléphone'}})}}
+                            </div>  
+                        </div>
+                        {{form_widget(form.submit, {'label':"Ajouter une adresse", 'attr':{'class':'btn btn-MD btn-outline-primary mt-3'}})}}
+                    </div>
+
+                {{form_end(form, {render_rest: true})}}
+        </div>
+        <div class="col-12 col-md-4">
+            <div class="container p-4">
+                <h3 class="text-center"><strong>Récapitulatif</strong></h3>
+                <h6>
+                    <i class="fa-regular fa-input-text"></i> <b>Nom: </b><span id="firstNameCust"></span> 
+                </h6>
+                <h6>
+                    <i class="fa-regular fa-id-card-clip"></i> <b>Prénom: </b><span id="lastNameCust"></span>
+                </h6>
+                
+                <h6>
+                    <i class="fa-regular fa-suitcase"></i> <b>Entreprise: </b><span id="companyCust"></span>
+                </h6>
+
+                <hr class="p-2">
+
+                <h6>
+                    <i class="fa-regular fa-location-dot"></i> <b>Adresse: </b><span id="addressCust"></span>
+                    <i class="fa-regular fa-mailbox"></i> <b>Code postal: </b><span id="postalCust"></span> 
+                </h6>            
+                <h6>
+                    <i class="fa-regular fa-city"></i> <b>Ville: </b><span id="cityCust"></span>
+                    <i class="fa-regular fa-globe"></i> <b>Pays: </b><span id="countryCust"></span>
+                </h6>
+                
+                <h6><i class="fa-regular fa-phone"></i> <b>Téléphone: </b><span id="phoneCust"></span></h6>
+            </div>
+
+        </div>
+    </div>
+
+    <a href="{{path('app_address_management')}}" class="btn btn-md btn-outline-primary">Retour aux adresses</a>
+</div>
+
+        <script src="{{asset('js/script.js')}}"></script>
+
+{% endblock %}

@@ -77,12 +77,17 @@ class ProduitController extends AbstractController
         $repoProduit = $entityManagerInterface->getRepository(Produit::class);
         if($request->get('id') != null){
             $leProduitASupprimer = $entityManagerInterface->getRepository(Produit::class)->find($request->get('id'));
-            $lImage = $entityManagerInterface->getRepository(Fichier::class)->find($request->get('id'));
-            $filesystem->remove('uploads/fichiers/'.$lImage());
-            $entityManagerInterface->remove($leProduitASupprimer);
-            $entityManagerInterface->flush();
-            $this->addFlash('danger','Produit supprimé de la liste !');
-            return $this->redirectToRoute('app_liste_produits');
+            $file = $leProduitASupprimer->getIllustration();
+            if($leProduitASupprimer && $file){
+                foreach ($file as $files) {
+                    $filesystem->remove('uploads/fichiers/'.$files->getNomServeur());
+                    $entityManagerInterface->remove($files);
+                }
+                $entityManagerInterface->remove($leProduitASupprimer);
+                $entityManagerInterface->flush();
+                $this->addFlash('danger','Produit supprimé de la liste !');
+                return $this->redirectToRoute('app_liste_produits');
+            }            
         }
         $produits = $repoProduit->findAll();
         return $this->render('produit/liste-produits.html.twig', ['produits'=>$produits]);

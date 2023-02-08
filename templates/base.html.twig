@@ -35,7 +35,6 @@
                        <li class="nav-item">
                             <a class="nav-link active text-light" aria-current="page" href="{{path('app_contact')}}">Contact</a>
                         </li>         
-
                         {% if is_granted('ROLE_ADMIN') %}
                        <li class="nav-item">
                             <a class="nav-link active text-light" aria-current="page" href="{{path('app_control_panel')}}">Panel de contrôle</a>
@@ -47,7 +46,7 @@
                             <a class="nav-link active text-light" aria-current="page" href="{{path('app_profile')}}">Mon profil</a>
                         </li>  
                         <li class="nav-item">
-                            <a class="nav-link active text-light" aria-current="page" href="{{path('app_cart')}}"><i class="fa-regular fa-cart-shopping-fast"></i></a>
+                            <a class="nav-link active text-light" aria-current="page" href="{{path('app_cart')}}">Mon panier</a>
                         </li>  
                         {% endif %}
 
@@ -56,7 +55,7 @@
                             <a class="btn btn-outline-success nav-link active text-light ms-1 me-1" href="{{path('app_register')}}">S'inscrire</a>
                         {% endif %}
                         {% if app.user %}
-                            <a class="nav-link disabled text-success">{{ app.user.userIdentifier }}</a>
+                            <!--a class="nav-link disabled text-success">{{ app.user.userIdentifier }}</a-->
                             <a class="btn btn-outline-danger nav-link active text-light" href="{{path('app_logout')}}">Se déconnecter</a>
                         {% endif %}
                     </ul>

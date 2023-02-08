@@ -27,6 +27,7 @@
                 {% if user.isVerified == true %}
                     <a href="{{path('app_profile-update')}}" class="btn btn-lg btn-outline-primary">Modifier mes informations personnelles</a>
                     <a href="{{path('app_profile_update_password')}}" class="btn btn-lg btn-outline-primary">Modifier mon mot de passe</a>
+                    <a href="{{path('app_address_management')}}" class="btn btn-lg btn-outline-primary">Gérer mes adresses de livraison</a>
                 {% else %}
                     <form method="post" class="text-center">
                         <input class="btn btn-lg btn-outline-danger" type="submit" value="Valider mon compte (obligatoire)" name="verification">
@@ -43,7 +44,7 @@
 </div>
 <div class="container p-4">
     <div class="row">
-        <h5>WebDealMarket s'engage à respecter le Règlement Général sur la Protection des Données (RPGD) du 27 avril 2016.
+        <h5>WebDealMarket s'engage à respecter le Règlement Général sur la Protection des Données (RGPD) du 27 avril 2016.
         Pour en savoir plus sur notre politique de traitement des données, veuillez cliquer <a href="{{path('app_mentions')}}">ici</a>.</h5>
     </div>
 </div>

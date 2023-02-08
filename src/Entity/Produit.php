@@ -176,7 +176,7 @@ class Produit
         return $this;
     }
 
-    public function removeIllustration(Fichier $illustration, Filesystem $filesystem): self
+    public function removeIllustration(Fichier $illustration): self
     {
         if ($this->illustration->removeElement($illustration)) {
             if ($illustration->getProduit() === $this) {
