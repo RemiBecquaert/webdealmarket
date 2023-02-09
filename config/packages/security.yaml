@@ -34,8 +34,11 @@ security:
         ROLE_ADMIN: [ROLE_USER]  
 
     access_control:
-    - { path: ^/private, roles: ROLE_ADMIN }
-    - { path: ^/profile, roles: ROLE_USER }
+    - { path: ^/admin, roles: ROLE_ADMIN }
+    - { path: ^/profil, roles: ROLE_USER }
+    - { path: ^/commande, roles: ROLE_USER }
+    - { path: ^/reparation, roles: ROLE_USER }
+    - { path: ^/panier, roles: ROLE_USER }
 
 
 when@test:

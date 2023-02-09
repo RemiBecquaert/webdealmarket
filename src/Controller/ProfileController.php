@@ -28,7 +28,7 @@ class ProfileController extends AbstractController
         $this->emailVerifier = $emailVerifier;
     }
 
-    #[Route('/profile-resume', name: 'app_profile', methods:['GET', 'POST'])]
+    #[Route('/profil', name: 'app_profile', methods:['GET', 'POST'])]
     public function profileResume(Security $security): Response
     {
         $user = $security->getUser();
@@ -50,7 +50,7 @@ class ProfileController extends AbstractController
         return $this->render('profile/resume.html.twig', ['user'=>$user]);
     }
 
-    #[Route('/profile-update-password', name: 'app_profile_update_password', methods: ['POST', 'GET'])]
+    #[Route('/profil/update-password', name: 'app_profile_update_password', methods: ['POST', 'GET'])]
     public function profilePasswordUpdate(UserPasswordHasherInterface $userPasswordHasher, Security $security, Request $request, EntityManagerInterface $entityManagerInterface): Response
     {
         $user = $security->getUser();
@@ -99,7 +99,7 @@ class ProfileController extends AbstractController
         return $this->render('profile/updatePassword.html.twig',['form'=>$form->createView()]);
     }
 
-    #[Route('/profile-update', name: 'app_profile-update', methods: ['GET', 'POST'])]
+    #[Route('/profil/update-infos', name: 'app_profile-update', methods: ['GET', 'POST'])]
     public function profileUpdate(Security $security, Request $request, EntityManagerInterface $entityManagerInterface): Response
     {
         $user = $security->getUser();
@@ -126,7 +126,7 @@ class ProfileController extends AbstractController
         return $this->render('profile/update.html.twig', ['user'=>$user, 'form'=>$form->createView()]);
     }
 
-    #[Route('/private-list-user', name: 'app_liste_user', methods:['GET'])]
+    #[Route('/admin/users-view', name: 'app_liste_user', methods:['GET'])]
     public function listeUser(EntityManagerInterface $entityManagerInterface, Request $request): Response
     {
         $repoUser = $entityManagerInterface->getRepository(User::class);

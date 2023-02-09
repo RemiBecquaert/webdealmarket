@@ -52,7 +52,7 @@ class ContactController extends AbstractController
         return $this->render('contact/prendrecontact.html.twig', [ 'form' => $form->createView()]);
     }
  
-    #[Route('/private-liste-contact', name: 'app_liste_contact')]
+    #[Route('/admin/contact-view', name: 'app_liste_contact')]
     public function listeContact(EntityManagerInterface $entityManagerInterface, Request $request): Response{
         $repoContact = $entityManagerInterface->getRepository(Contact::class);
         if($request->get('id') != null){

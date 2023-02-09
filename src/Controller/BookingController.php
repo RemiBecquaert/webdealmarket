@@ -16,7 +16,7 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class BookingController extends AbstractController
 {
-    #[Route('/private-liste-booking', name: 'app_booking_index', methods: ['GET'])]
+    #[Route('/admin/rdv-liste', name: 'app_booking_index', methods: ['GET'])]
     public function index(BookingRepository $bookingRepository): Response
     {
         return $this->render('booking/index.html.twig', [
@@ -24,7 +24,7 @@ class BookingController extends AbstractController
         ]);
     }
 
-    #[Route('/profile-create-booking', name: 'app_booking_new', methods: ['GET', 'POST'])]
+    #[Route('/reparation', name: 'app_booking_new', methods: ['GET', 'POST'])]
     public function new(Request $request, Security $security, EntityManagerInterface $entityManagerInterface): Response
     {
         $booking = new Booking();
@@ -64,7 +64,7 @@ class BookingController extends AbstractController
         return $this->renderForm('booking/new.html.twig', ['form' => $form, 'user'=>$user]);
     }
 
-    #[Route('/private-show-{id}', name: 'app_booking_show', methods: ['GET'])]
+    #[Route('/admin/rdv-show-{id}', name: 'app_booking_show', methods: ['GET'])]
     public function show(Booking $booking): Response
     {
         return $this->render('booking/show.html.twig', [
@@ -72,7 +72,7 @@ class BookingController extends AbstractController
         ]);
     }
 
-    #[Route('/private-edit-{id}', name: 'app_booking_edit', methods: ['GET', 'POST'])]
+    #[Route('/admin/rdv-edit-{id}', name: 'app_booking_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Booking $booking, EntityManagerInterface $entityManagerInterface): Response
     {
         $form = $this->createForm(BookingType2::class, $booking);
@@ -105,7 +105,7 @@ class BookingController extends AbstractController
         ]);
     }
 
-    #[Route('/private-delete-{id}', name: 'app_booking_delete', methods: ['POST'])]
+    #[Route('/admin/rdv-delete-{id}', name: 'app_booking_delete', methods: ['POST'])]
     public function delete(Request $request, Booking $booking, BookingRepository $bookingRepository): Response
     {
         if ($this->isCsrfTokenValid('delete'.$booking->getId(), $request->request->get('_token'))) {
@@ -115,7 +115,7 @@ class BookingController extends AbstractController
         return $this->redirectToRoute('app_booking_index', [], Response::HTTP_SEE_OTHER);
     } 
 
-    #[Route('/private-valid-list', name: 'app_booking_valids', methods: ['GET'])]
+    #[Route('/admin/rdv-valids', name: 'app_booking_valids', methods: ['GET'])]
     public function getValidsBookings(EntityManagerInterface $entityManagerInterface, Request $request): Response{
         $repoBooking = $entityManagerInterface->getRepository(Booking::class);
         $validsBooking = $repoBooking->findBy(['isConfirmed' => true]);

@@ -19,13 +19,13 @@ class CartController extends AbstractController
     }
 
 
-    #[Route('/profile-mon-panier', name: 'app_cart')]
+    #[Route('/panier', name: 'app_cart')]
     public function index(Cart $cart): Response
     {
         return $this->render('cart/index.html.twig', ['cart'=>$cart->getFull()]);
     }
 
-    #[Route('/profile-cart-add-{id}', name: 'app_add_to_cart')]
+    #[Route('/panier-add-{id}', name: 'app_add_to_cart')]
     public function cartAdd(Cart $cart, $id): Response
     {
         $cart->add($id);
@@ -34,7 +34,7 @@ class CartController extends AbstractController
         return $this->redirectToRoute('app_cart');
     }
 
-    #[Route('/profile-cart-remove', name: 'app_remove_cart')]
+    #[Route('/panier-remove', name: 'app_remove_cart')]
     public function cartRemove(Cart $cart): Response
     {
         $cart->remove();
@@ -42,7 +42,7 @@ class CartController extends AbstractController
         return $this->redirectToRoute('app_base');
     }
 
-    #[Route('/profile-cart-decrease-{id}', name: 'app_decrease_cart')]
+    #[Route('/panier-decrease-{id}', name: 'app_decrease_cart')]
     public function cartDecrease(Cart $cart, $id): Response
     {
         $cart->decrease($id);

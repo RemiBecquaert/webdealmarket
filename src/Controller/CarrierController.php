@@ -14,7 +14,7 @@ use App\Form\CarrierType;
 
 class CarrierController extends AbstractController
 {
-    #[Route('/private-carrier', name: 'app_carrier')]
+    #[Route('/admin/carrier-view', name: 'app_carrier')]
     public function management(EntityManagerInterface $entityManagerInterface, Request $request): Response
     {
         $carrier = new Carrier();

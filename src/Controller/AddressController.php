@@ -18,7 +18,7 @@ use App\Form\AddressType;
 class AddressController extends AbstractController
 
 {
-    #[Route('/profile-gestion-adresse', name: 'app_address_management')]
+    #[Route('/profil/adresse-view', name: 'app_address_management')]
     public function management(EntityManagerInterface $entityManagerInterface, Security $security, Request $request): Response
     {
 
@@ -35,7 +35,7 @@ class AddressController extends AbstractController
         return $this->render('address/gestionAdresses.html.twig', ['adresse'=>$lesAdresses]);
     }
 
-    #[Route('/profile-ajouter-adresse', name: 'app_address_add')]
+    #[Route('/profil/adresse-add', name: 'app_address_add')]
     public function add(Cart $cart, Security $security, EntityManagerInterface $entityManagerInterface, Request $request): Response
     {
         $user = $security->getUser();

@@ -15,7 +15,7 @@ use App\Repository\MarqueProduitRepository;
 
 class MarqueController extends AbstractController
 {
-    #[Route('/private-marque', name: 'app_marque')]
+    #[Route('/admin/brands-view', name: 'app_marque')]
     public function index(Request $request, EntityManagerInterface $entityManagerInterface): Response
     {
         $marque = new MarqueProduit();
@@ -43,5 +43,13 @@ class MarqueController extends AbstractController
         $lesMarques = $repoMarque->findAll();
 
         return $this->render('marque/index.html.twig', ['form'=>$form->createView(), 'lesMarques'=> $lesMarques] );
+    }
+
+    #[Route('/brands', name: 'app_marques')]
+    public function listeMarque(EntityManagerInterface $entityManagerInterface): Response
+    {
+        $repoMarques = $entityManagerInterface->getRepository(MarqueProduit::class);
+        $marques = $repoMarques->findAll();
+        return $this->render('produit/marqueList.html.twig', ['marques'=>$marques]);
     }
 }

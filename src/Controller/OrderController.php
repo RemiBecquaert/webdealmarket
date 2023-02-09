@@ -25,7 +25,7 @@ class OrderController extends AbstractController
         $this->entityManagerInterface = $entityManagerInterface;
     }
 
-    #[Route('/profile-commande', name: 'app_order')]
+    #[Route('/commande', name: 'app_order')]
     public function commande(Cart $cart): Response
     {
         if(!$this->getUser()->getAddresses()->getValues()){
@@ -59,7 +59,7 @@ class OrderController extends AbstractController
         return $this->render('order/index.html.twig', ['form' =>$form->createView(), 'cart'=>$cart->getFull()]);
     }
 
-    #[Route('/profile-commande/recapitulatif', name: 'app_order_recap', methods: ['POST', 'GET'])]
+    #[Route('/commande/summary', name: 'app_order_recap', methods: ['POST', 'GET'])]
     public function add(Cart $cart, Request $request): Response
     {
         

@@ -27,7 +27,7 @@ use App\Form\UpdateProduitType;
 class ProduitController extends AbstractController
 {
     /*DEBUT DES FONCTIONS ADMIN*/
-    #[Route('/private-ajout-produit', name: 'app_ajout_produit')]
+    #[Route('/admin/produit-add', name: 'app_ajout_produit')]
     public function creerProduit(Security $security, Request $request, EntityManagerInterface $entityManagerInterface): Response
     {
         $produit = new Produit();
@@ -71,7 +71,7 @@ class ProduitController extends AbstractController
         return $this->render('produit/index.html.twig', ['form'=>$form->createView()]);
     }
 
-    #[Route('/private-liste-produits', name: 'app_liste_produits')]
+    #[Route('/admin/produit-view', name: 'app_liste_produits')]
     public function listeProduitAdmin(Filesystem $filesystem, EntityManagerInterface $entityManagerInterface, Request $request): Response
     {
         $repoProduit = $entityManagerInterface->getRepository(Produit::class);
@@ -93,7 +93,7 @@ class ProduitController extends AbstractController
         return $this->render('produit/liste-produits.html.twig', ['produits'=>$produits]);
     }
 
-    #[Route('/private/product/{slug}', name: 'app_produit_show', methods: ['GET'])]
+    #[Route('/admin/produit-{slug}', name: 'app_produit_show', methods: ['GET'])]
     public function voirProduitAdmin(string $slug, Request $request, Produit $produit): Response
     {
         return $this->render('produit/show.html.twig', [
@@ -101,7 +101,7 @@ class ProduitController extends AbstractController
         ]);
     }
 
-    #[Route('/private-update-{id}', name: 'app_produit_update', methods: ['GET', 'POST'])]
+    #[Route('/admin/produit-update-{id}', name: 'app_produit_update', methods: ['GET', 'POST'])]
     public function updateProduit(Request $request, Produit $produit, EntityManagerInterface $entityManagerInterface): Response
     {
         $form = $this->createForm(UpdateProduitType::class, $produit);
@@ -124,7 +124,7 @@ class ProduitController extends AbstractController
 
     /*DÉBUT DES FONCTIONS UTILISATEURS*/
 
-    #[Route('/product/{slug}', name: 'app_product_public', methods: ['GET'])]
+    #[Route('/produit-{slug}', name: 'app_product_public', methods: ['GET'])]
     public function voirProduit(Request $request, Produit $produit): Response
     {
         return $this->render('produit/produitById.html.twig', [
@@ -132,7 +132,7 @@ class ProduitController extends AbstractController
         ]);
     }
 
-    #[Route('/nos-produits', name: 'app_product_list')]
+    #[Route('/produits-view-all', name: 'app_product_list')]
     public function listeProduit(EntityManagerInterface $entityManagerInterface): Response
     {
         $repoProduit = $entityManagerInterface->getRepository(Produit::class);
@@ -140,23 +140,12 @@ class ProduitController extends AbstractController
         return $this->render('produit/produitList.html.twig', ['produits'=>$produits]);
     }
 
-    #[Route('/nos-produits/{libelle}', name: 'app_product_marque')]
+    #[Route('/produits-{libelle}', name: 'app_product_marque')]
     public function voirByMarque(MarqueProduit $marque, Request $request, EntityManagerInterface $entityManagerInterface): Response
     {
         
         return $this->render('produit/produitList.html.twig', ['produits'=>$marque->getProduits()]);
     }
-
-    #[Route('/marques', name: 'app_marques')]
-    public function listeMarque(EntityManagerInterface $entityManagerInterface): Response
-    {
-        $repoMarques = $entityManagerInterface->getRepository(MarqueProduit::class);
-        $marques = $repoMarques->findAll();
-        return $this->render('produit/marqueList.html.twig', ['marques'=>$marques]);
-    }
-
-
-
     /*FIN DES FONCTIONS UTILISATEURS*/
 
 }
