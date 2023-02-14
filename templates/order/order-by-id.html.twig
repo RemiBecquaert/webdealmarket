@@ -1,0 +1,86 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }}Commande n° {{ order.id }}{% endblock %}
+
+{% block body %}
+{{ parent() }}
+
+{% set total = null %}
+{% set nombreP = null %}
+
+
+    <div class="container p-4">
+        <div class="row">
+            <div class="col">
+                <div class="container p-2 bg-light">
+                    <h3><i class="fa-regular fa-id-card-clip"></i> <u>Informations sur la commande</u></h3>
+                    <small>Commande n° {{ order.id }}, créée le: {{ order.createdAt | date("d-m-Y à H:i:s")}}</small>
+                    <hr>
+                    <h6><i class="fa-regular fa-user"></i> {{ order.user.nom | upper}} {{ order.user.prenom | capitalize }}</h6>
+                    <h6><i class="fa-regular fa-at"></i> {{ order.user.email }}</h6>
+                </div>
+                <div class="container p-2">
+                    <h3><i class="fa-regular fa-cart-arrow-down"></i> <u>Détails de la commande</u></h3>
+                    <table class="table border-dark">
+                        <thead class="table-primary">
+                            <tr>
+                                <th scope="col">Produits</th>
+                                <th scope="col">Quantité</th>
+                                <th scope="col">Prix</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for orderDetails in order.orderDetails %}
+                            <tr>
+                                <th scope="row">{{orderDetails.product}}</th>
+                                <td>x{{orderDetails.quantity}}</td>
+                                <td>{{orderDetails.total}}€</td>
+                                {% set total = total + (orderDetails.price * orderDetails.quantity) %}
+                                {% set nombreP = nombreP + orderDetails.quantity %}
+                            </tr>
+                        {% endfor %}    
+                        </tbody>
+                    </table>   
+                    <hr>
+                    {% if order.carrierPrice != 0 %}
+                        <strong>Nombre total de produits: </strong>{{nombreP}}<br/>
+                        <strong>Sous-total: </strong>{{total}}€<br/>
+                        <strong>Livraison: ({{order.carrierName}}) </strong>{{order.carrierPrice}}€
+                        <hr>
+                        <strong>Total: </strong>{{ ((total + order.carrierPrice)) }}€ TTC<br/>
+                    {% else %}
+                        <strong>Total: </strong>{{total}}€ TTC<br/>
+                    {% endif %}  
+
+                    {% if order.isPaid == 0 %}
+                        <h6 class="text-danger">Paiement non effectué&#10060;</h6>
+                    {% else %}        
+                        <h6 class="text-success">Paiement effectué&#9989;</h6>
+                    {% endif %}        
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="container bg-light p-2">
+                    <h3><i class="fa-regular fa-map-location-dot"></i> <u>Informations sur l'expédition</u></h3>
+                    {% if order.carrierPrice != 0 %}
+                        <h6>{{order.delivery | replace({'<br/>' : '<br/>'}) | raw }}</h6>
+                    {% else %}
+                        <h6>Click and Collect choisi</h6>
+                    {% endif %}
+                </div>
+                <div class="btn-group p-2" role="group" aria-label="Basic example">
+                    <a href="{{ path('app_order_admin_view') }}" type="button" class="m-2 btn btn-md btn-primary rounded-pill">Retour à la liste des commandes</a>
+                    <a href="#" type="button" class="m-2 btn btn-md btn-success rounded-pill">Changer le statut de la commande</a>
+                    <a href="#" type="button" class="m-2 btn btn-md btn-success rounded-pill">Télécharger la facture en PDF (en construction)</a>
+                </div>
+                <div class="container p-4">
+                    <h2 class="text-dark text-center mt-2"><i class="fa-regular fa-comment-medical"></i> <em>Les conseils de Rémi</em></h2>
+                    <p>Ne préparez pas la commande tant que celle-ci n'affiche pas "Paiement effectué", afin d'éviter de perdre du temps précieux pour
+                    d'autres tâches.<br/>Il est possible de télécharger la facture sous format PDF en cliquant sur le bouton ci-dessus.</p>
+                </div>
+
+            </div>
+        </div>
+    </div>    
+{% endblock %}

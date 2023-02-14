@@ -39,6 +39,9 @@ class Order
     #[ORM\Column]
     private ?bool $isPaid = null;
 
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $paymentDate = null;
+
     public function __construct()
     {
         $this->orderDetails = new ArrayCollection();
@@ -147,6 +150,18 @@ class Order
     public function setIsPaid(bool $isPaid): self
     {
         $this->isPaid = $isPaid;
+
+        return $this;
+    }
+
+    public function getPaymentDate(): ?\DateTimeInterface
+    {
+        return $this->paymentDate;
+    }
+
+    public function setPaymentDate(?\DateTimeInterface $paymentDate): self
+    {
+        $this->paymentDate = $paymentDate;
 
         return $this;
     }

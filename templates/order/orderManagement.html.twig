@@ -1,0 +1,81 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }}Mes commandes{% endblock %}
+
+{% block body %}
+{{ parent() }}
+
+{% set total = null %}
+{% set nombreP = null %}
+
+	<div class="container-fluid">
+        <h2 class="text-dark text-center mt-2">Mes commandes</h2>
+		<div class="row justify-content-center">
+			<div class="col-12 col-md-8 bg-white p-4 m-0 text-primary">
+                {% if orders is empty %}
+                    <div class="container text-center">
+                        <h5 class="text-dark">Aucun commande n'est encore enregistrée !</h5> 
+                    </div>  
+                {% else %}
+					{% for order in orders | sort((a, b) => b.createdAt <=> a.createdAt) %}
+                        <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                            <div class="col p-4 rounded">
+                                <div class="bg-light text-center rounded-pill border">
+                                    <strong class="text-dark">Commande n° {{order.id}}</strong>
+                                    <div class="mb-1 text-muted">Créée le {{ order.createdAt | date("d-m-Y à H:i:s") }}</div>
+                                </div>
+
+                                {% for orderDetails in order.orderDetails %}
+                                    <div class="d-flex justify-content-between">
+                                        <h6 class="mb-0"><i class="fa-regular fa-arrow-turn-down-right"></i> <strong>{{orderDetails.product}}</strong></h6>
+                                        <h6>Prix: {{orderDetails.total}}€</h6>
+                                    </div>
+                                    <h6 class="text-muted">Quantité: x{{orderDetails.quantity}}</h6> 
+                                        
+                                    {% set total = total + (orderDetails.price * orderDetails.quantity) %}
+                                    {% set nombreP = nombreP + orderDetails.quantity %}
+                                <hr>
+                                {% endfor %}
+
+                                <div class="row">
+                                    {% if order.carrierPrice != 0 %}
+                                        <div class="col">
+                                            <div class="bg-light rounded border">
+                                                <h6>{{order.delivery | replace({'<br/>' : '<br/>'}) | raw }}</h6>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <h6>Sous-total: {{total}}€</h6>
+                                            <h6>Livraison: ({{order.carrierName}}) {{order.carrierPrice}}€</h6>
+                                            <hr>
+                                            <h6>Prix total de la commande: {{ ((total + order.carrierPrice)) }}€ TTC</h6><br/>
+                                        </div>
+                                    {% else %}  
+                                        <div class="col">
+                                            <h6>Click and Collect choisi</h6>
+                                        </div>
+                                        <div class="col">
+                                            <h6>Prix total TTC: {{total}}€</h6>
+                                        </div>
+                                    {% endif %}    
+                                </div>
+                            {% if order.isPaid == 0 %}
+                                <h6 class="text-danger">Paiement non effectué&#10060;</h6>
+                                <div class="text-center">
+                                    <a class="btn btn-success btn-md" href="{{path('app_order_by_id_user', {'id':order.id})}}">Voir ma commande (Payer)</a>
+                                </div>
+                            {% else %}        
+                                <h6 class="text-success">Paiement effectué&#9989;</h6>
+                                <div class="text-center">
+                                    <a class="btn btn-info btn-md" href="{{path('app_order_by_id_user', {'id':order.id})}}">Détails de ma commande</a>                            
+                                </div>
+                            {% endif %}  
+                            </div>
+                        </div>
+					{% endfor %}    
+                {% endif %}
+			</div>
+		</div>
+	</div>
+
+{% endblock %}

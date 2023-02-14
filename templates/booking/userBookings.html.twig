@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }}Mes rendez-vous{% endblock %}
+
+{% block body %}
+{{ parent() }}
+
+{% if bookings is empty %}
+    <div class="container p-4 text-center">
+        <h3>Aucun rendez-vous n'a été pris !</h3>
+        <a class="btn btn-md btn-outline-info" href="{{path('app_booking_new')}}">Prendre rendez-vous</a>
+    </div>
+{% else %}
+    <div class="container p-4 d-flex justify-content-center">
+        <div class="row">
+        {% for booking in bookings %}
+            <div class="card p-2 mt-2 mb-2 text-center">
+                <div class="card-body">
+                    <h5 class="card-title"><u>Rendez-vous n° {{booking.id}}</u></h5>
+                    <h6 class="text-muted">Date souhaitée: {{booking.beginAt | date('d-m-Y à H:i:s')}}</h6>
+                    <p class="card-text">Sujet: {{ booking.sujetId.libelle }}<br/>
+                        Marque renseignée: {{ booking.marque.libelle}}<br/>
+                    </p>
+                    <a href="{{path('app_user_bookings', {'id':booking.id})}}"><i class="fa-regular fa-trash-can text-dark fa-2xl"></i></a>
+
+                    {% if booking.isConfirmed == true  %}
+                        <button type="button" class="btn btn-md btn-success" disabled>Rendez-vous accepté !</button>
+                    {% else %}
+                        <button type="button" class="btn btn-md btn-warning" disabled>Rendez-vous en attente !</button>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+    </div>
+
+{% endif %}
+
+
+{% endblock %}

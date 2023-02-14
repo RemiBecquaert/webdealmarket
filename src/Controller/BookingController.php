@@ -14,54 +14,11 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Mime\Address;
 use Doctrine\ORM\EntityManagerInterface;
 
+
 class BookingController extends AbstractController
 {
-    #[Route('/admin/rdv-liste', name: 'app_booking_index', methods: ['GET'])]
-    public function index(BookingRepository $bookingRepository): Response
-    {
-        return $this->render('booking/index.html.twig', [
-            'bookings' => $bookingRepository->findAll(),
-        ]);
-    }
-
-    #[Route('/reparation', name: 'app_booking_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, Security $security, EntityManagerInterface $entityManagerInterface): Response
-    {
-        $booking = new Booking();
-        $form = $this->createForm(BookingType::class, $booking);
-
-        $user = $security->getUser();
-
-        if($request->isMethod('POST')){
-            $form->handleRequest($request);
-            if ($form->isSubmitted() && $form->isValid()) {
-
-                $booking->setIdClient($user);
-                $booking->setIsConfirmed(false);
-                $booking->setDateCreation(new \Datetime());
-                $entityManagerInterface->persist($booking);
-                $entityManagerInterface->flush();
-                /*
-                $email = (new TemplatedEmail())
-                ->from($user->getEmail())
-                ->to('contact.webdealmarket@gmail.com')
-                ->subject('DEMANDE RÉPARATION')
-                ->htmlTemplate('emails/new_booking.html.twig')
-                ->context([
-                    'email'=> $user->getEmail(),
-                    'dateCreation'=> $booking->getDateCreation(),
-                    'dateProposition'=> $booking->getBeginAt(),
-                    'description'=> $booking->getDescription(),
-                ]);
-            
-                $mailer->send($email);
-                */
-                $this->addFlash('notice', 'La prise de rendez-vous a bien été enregistrée, nous reviendrons rapidement vers vous pour la valider !');
-    
-                return $this->redirectToRoute('app_reparer', [], Response::HTTP_SEE_OTHER);
-            }
-        }
-        return $this->renderForm('booking/new.html.twig', ['form' => $form, 'user'=>$user]);
+    public function __construct(EntityManagerInterface $entityManagerInterface){
+        $this->entityManagerInterface = $entityManagerInterface;
     }
 
     #[Route('/admin/rdv-show-{id}', name: 'app_booking_show', methods: ['GET'])]
@@ -114,6 +71,54 @@ class BookingController extends AbstractController
 
         return $this->redirectToRoute('app_booking_index', [], Response::HTTP_SEE_OTHER);
     } 
+    
+    #[Route('/reparation', name: 'app_booking_new', methods: ['GET', 'POST'])]
+    public function new(Request $request, Security $security, EntityManagerInterface $entityManagerInterface): Response
+    {
+        $booking = new Booking();
+        $form = $this->createForm(BookingType::class, $booking);
+
+        $user = $security->getUser();
+
+        if($request->isMethod('POST')){
+            $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()) {
+
+                $booking->setIdClient($user);
+                $booking->setIsConfirmed(false);
+                $booking->setDateCreation(new \Datetime());
+                $entityManagerInterface->persist($booking);
+                $entityManagerInterface->flush();
+                /*
+                $email = (new TemplatedEmail())
+                ->from($user->getEmail())
+                ->to('contact.webdealmarket@gmail.com')
+                ->subject('DEMANDE RÉPARATION')
+                ->htmlTemplate('emails/new_booking.html.twig')
+                ->context([
+                    'email'=> $user->getEmail(),
+                    'dateCreation'=> $booking->getDateCreation(),
+                    'dateProposition'=> $booking->getBeginAt(),
+                    'description'=> $booking->getDescription(),
+                ]);
+            
+                $mailer->send($email);
+                */
+                $this->addFlash('notice', 'La prise de rendez-vous a bien été enregistrée, nous reviendrons rapidement vers vous pour la valider !');
+    
+                return $this->redirectToRoute('app_reparer', [], Response::HTTP_SEE_OTHER);
+            }
+        }
+        return $this->renderForm('booking/new.html.twig', ['form' => $form, 'user'=>$user]);
+    }
+
+    #[Route('/admin/rdv-liste', name: 'app_booking_index', methods: ['GET'])]
+    public function index(BookingRepository $bookingRepository): Response
+    {
+        return $this->render('booking/index.html.twig', [
+            'bookings' => $bookingRepository->findAll(),
+        ]);
+    }
 
     #[Route('/admin/rdv-valids', name: 'app_booking_valids', methods: ['GET'])]
     public function getValidsBookings(EntityManagerInterface $entityManagerInterface, Request $request): Response{
@@ -122,4 +127,23 @@ class BookingController extends AbstractController
 
         return $this->render('booking/valid-list.html.twig', ['validsBooking'=>$validsBooking]);
     }    
+
+    #[Route('/profil/mes-rdv', name: 'app_user_bookings')]
+    public function getUserBookings(Security $security, Request $request){
+        $user = $security->getUser();
+        $userBooking = $this->entityManagerInterface->getRepository(Booking::class)->findBy(['idClient' => $user]);  
+
+        if($request->get('id') != null){
+            $deleteBooking = $this->entityManagerInterface->getRepository(Booking::class)->find($request->get('id'));
+            if (!$deleteBooking || $deleteBooking->getIdClient() != $this->getUser()) {
+            $this->addFlash('danger','Erreur dans la reqûete !');
+            return $this->redirectToRoute('app_profile');
+            }
+            $this->entityManagerInterface->remove($deleteBooking);
+            $this->entityManagerInterface->flush();
+            $this->addFlash('danger','Rendez-vous supprimé !');
+            return $this->redirectToRoute('app_user_bookings');
+        }
+        return $this->render('booking/userBookings.html.twig', ['bookings'=>$userBooking]);
+    }
 }

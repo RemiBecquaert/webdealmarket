@@ -80,7 +80,7 @@ class Cart{
                 $product_object = $this->entityManager->getRepository(Produit::class)->findOneById($id);
 
                 if (!$product_object) {
-                    $this->delete($id);
+                    $this->remove();
                     continue;
                 }
 

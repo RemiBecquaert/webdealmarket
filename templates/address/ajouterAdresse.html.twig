@@ -6,6 +6,7 @@
 {{parent()}}
 
 <div class="container p-4">
+    <a href="{{path('app_address_management')}}" class="btn btn-md btn-outline-primary float-end">Retour aux adresses</a>
     <div class="row">
         <div class="col-12 col-md-8">    
             <div class="container text-center">
@@ -14,9 +15,10 @@
                 {{form_start(form, {'attr':{'class':'text-center'}})}}
                     <div class="container p-4">
                         <div class="row">
+
                             <div class="col-12 col-md-4">
                                 {{form_label(form.name, 'Libellé de votre adresse', {'label_attr':{'class':'fw-bold text-dark'}})}}
-                                {{form_widget(form.name, {'attr':{'class':'form-control text-dark', 'placeholder':'Domicile, ami...'}})}}
+                                {{form_widget(form.name, {'attr':{'class':'form-control', 'placeholder':'Domicile, ami...'}})}}
                             </div>
                             <div class="col-12 col-md-4">
                                 {{form_label(form.firstname, 'Votre nom', {'label_attr':{'class':'fw-bold text-dark'}})}}
@@ -27,7 +29,6 @@
                                 {{form_widget(form.lastname, {'id':'lastname', 'attr':{'class':'form-control text-dark', 'placeholder':'Votre prénom'}})}}
                             </div>
                         </div>
-
                         {{form_label(form.company, 'Entreprise', {'label_attr':{'class':'fw-bold text-dark'}})}}
                         {{form_widget(form.company, {'id':'company','attr':{'class':'form-control text-dark', 'placeholder':'Entreprise (facultatif)'}})}}
                     
@@ -50,7 +51,8 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-12 col-md-6">        
+                            <div class="col-12 col-md-6"> 
+
                                 {{form_label(form.country, 'Pays', {'label_attr':{'class':'fw-bold text-dark'}})}}
                                 {{form_widget(form.country, {'id':'country', 'attr':{'class':'form-control text-dark', 'placeholder':'Pays'}})}}
                             </div>
@@ -65,6 +67,14 @@
                 {{form_end(form, {render_rest: true})}}
         </div>
         <div class="col-12 col-md-4">
+            {{form_errors(form.name)}}
+            {{form_errors(form.firstname)}}
+            {{form_errors(form.lastname)}}
+            {{form_errors(form.company)}}
+            {{form_errors(form.address)}}
+            {{form_errors(form.postal)}}
+            {{form_errors(form.city)}}
+            {{form_errors(form.phone)}}
             <div class="container p-4">
                 <h3 class="text-center"><strong>Récapitulatif</strong></h3>
                 <h6>
@@ -91,11 +101,8 @@
                 
                 <h6><i class="fa-regular fa-phone"></i> <b>Téléphone: </b><span id="phoneCust"></span></h6>
             </div>
-
         </div>
     </div>
-
-    <a href="{{path('app_address_management')}}" class="btn btn-md btn-outline-primary">Retour aux adresses</a>
 </div>
 
         <script src="{{asset('js/script.js')}}"></script>

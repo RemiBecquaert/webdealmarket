@@ -27,6 +27,24 @@ use App\Form\UpdateProduitType;
 class ProduitController extends AbstractController
 {
     /*DEBUT DES FONCTIONS ADMIN*/
+
+    #[Route('/admin/produit-update-{id}', name: 'app_produit_update', methods: ['GET', 'POST'])]
+    public function updateProduit(Request $request, Produit $produit, EntityManagerInterface $entityManagerInterface): Response
+    {
+        $form = $this->createForm(UpdateProduitType::class, $produit);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted()&&$form->isValid()){
+            $entityManagerInterface->persist($produit);
+            $entityManagerInterface->flush();
+
+            $this->addFlash('success', 'Le produit a bien été modifié !');
+            return $this->redirectToRoute('app_liste_produits');
+        }
+
+        return $this->render('produit/update-produit.html.twig', ['form'=>$form->createView(),'produit' => $produit]);
+    }
+
     #[Route('/admin/produit-add', name: 'app_ajout_produit')]
     public function creerProduit(Security $security, Request $request, EntityManagerInterface $entityManagerInterface): Response
     {
@@ -93,33 +111,11 @@ class ProduitController extends AbstractController
         return $this->render('produit/liste-produits.html.twig', ['produits'=>$produits]);
     }
 
-    #[Route('/admin/produit-{slug}', name: 'app_produit_show', methods: ['GET'])]
-    public function voirProduitAdmin(string $slug, Request $request, Produit $produit): Response
+    #[Route('/admin/produit-{slug}', name: 'app_produit_show')]
+    public function voirProduitAdmin(Produit $produit): Response
     {
-        return $this->render('produit/show.html.twig', [
-            'produit' => $produit,
-        ]);
+        return $this->render('produit/show.html.twig', ['produit' => $produit]);
     }
-
-    #[Route('/admin/produit-update-{id}', name: 'app_produit_update', methods: ['GET', 'POST'])]
-    public function updateProduit(Request $request, Produit $produit, EntityManagerInterface $entityManagerInterface): Response
-    {
-        $form = $this->createForm(UpdateProduitType::class, $produit);
-        $form->handleRequest($request);
-
-        if($form->isSubmitted()&&$form->isValid()){
-            $entityManagerInterface->persist($produit);
-            $entityManagerInterface->flush();
-
-            $this->addFlash('success', 'Le produit a bien été modifié !');
-            return $this->redirectToRoute('app_liste_produits');
-        }
-
-        return $this->render('produit/update-produit.html.twig', ['form'=>$form->createView(),
-            'produit' => $produit,
-        ]);
-    }
-
     /*FIN DES FONCTIONS ADMIN*/
 
     /*DÉBUT DES FONCTIONS UTILISATEURS*/

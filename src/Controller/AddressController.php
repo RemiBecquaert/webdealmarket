@@ -26,6 +26,10 @@ class AddressController extends AbstractController
         $repoAdresse = $entityManagerInterface->getRepository(Address::class);
         if($request->get('id') != null){
             $adresseASupp = $entityManagerInterface->getRepository(Address::class)->find($request->get('id'));
+            if (!$adresseASupp || $adresseASupp->getUser() != $this->getUser()) {
+            $this->addFlash('danger','Erreur dans la reqûete !');
+            return $this->redirectToRoute('app_address_management');
+            }
             $entityManagerInterface->remove($adresseASupp);
             $entityManagerInterface->flush();
             $this->addFlash('danger','Adresse supprimée !');
@@ -55,6 +59,9 @@ class AddressController extends AbstractController
                     $this->addFlash('success', 'Adresse ajoutée !');
                     return $this->redirectToRoute('app_address_management');
                 }
+            }
+            else{
+                $this->addFlash('danger', 'Échec de la création de l\'adresse !');
             }
         }
         return $this->render('address/ajouterAdresse.html.twig', ['form'=>$form->createView()]);

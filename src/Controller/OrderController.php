@@ -2,19 +2,26 @@
 
 namespace App\Controller;
 
-use App\Form\OrderType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Security\Core\Security;
+use Dompdf\Dompdf;
+use Dompdf\Options;
+
+use App\Form\OrderType;
+
+use App\Classe\Cart;
 
 use App\Entity\Produit;
-use App\Classe\Cart;
 use App\Entity\Carrier;
 use App\Entity\Address;
 use App\Entity\Order;
 use App\Entity\OrderDetails;
+
+use App\Repository\OrderRepository;
 
 class OrderController extends AbstractController
 {
@@ -25,42 +32,48 @@ class OrderController extends AbstractController
         $this->entityManagerInterface = $entityManagerInterface;
     }
 
-    #[Route('/commande', name: 'app_order')]
-    public function commande(Cart $cart): Response
+    #[Route('/commande-{id}', name: 'app_order_by_id_user')]
+    public function orderByIdUser(Security $security, Order $order, Request $request, $id): Response
     {
-        if(!$this->getUser()->getAddresses()->getValues()){
-            return $this->redirectToRoute('app_address_add');
+        $user = $security->getUser();
+
+        $order = $this->entityManagerInterface->getRepository(Order::class)->find($id);
+        $lesDetails = $this->entityManagerInterface->getRepository(OrderDetails::class)->findAll();
+
+        if (!$order || $order->getUser() != $this->getUser()) {
+            return $this->redirectToRoute('app_order_management_user');
+        }  
+        return $this->render('order/voirCommandeUser.html.twig', ['order'=>$order, 'orderDetails'=>$lesDetails]);
+    }
+
+    #[Route('/admin/commande-{id}', name: 'app_order_management_admin')]
+    public function orderByIdAdmin(Order $order): Response
+    {
+        return $this->render('order/order-by-id.html.twig', ['order'=>$order, 'orderDetails'=>$order->getOrderDetails()]);
+    }
+
+    #[Route('/commande/view', name: 'app_order_management_user')]
+    public function ordersManage(Security $security, Request $request): Response
+    {
+        $user = $security->getUser();
+
+        $repoOrder = $this->entityManagerInterface->getRepository(Order::class);
+        $repoDetails = $this->entityManagerInterface->getRepository(OrderDetails::class);
+        if($request->get('id') != null){
+            $orderASupp = $this->entityManagerInterface->getRepository(Order::class)->find($request->get('id'));
+            $entityManagerInterface->remove($orderASupp);
+            $entityManagerInterface->flush();
+            $this->addFlash('danger','Commande supprimée !');
+            return $this->redirectToRoute('app_order_management');
         }
-        if(!$cart->getFull()){
-            return $this->redirectToRoute('app_cart');
-        }
+        $lesCommandes = $repoOrder->findBy(['user' => $user]);
+        $lesDetails = $repoDetails->findAll();
 
-        /*pour chaque produit dans le panier
-        je veux récupérer l'identifiant d'un produit dans le panier
-        je veux récupérer la quantité du produit en question produit dans le panier
-        je veux associer le produit de la db avec l'id du produit du panier
-        je veux comparer la quantité du produit du panier avec la quantité du produit de la db*/
-
-        foreach ($cart->getFull() as $product){
-            $productId = $product['produit'];
-            $productQuantity = $product['quantity'];
-            $product = $this->entityManagerInterface->getRepository(Produit::class)->find($productId);
-
-            if ($product->getQuantite() < $productQuantity) {
-                $this->addFlash('notice', 'La quantité du produit n\'est pas valide !');
-                return $this->redirectToRoute('app_cart');
-            }
-        }
-
-        $form = $this->createForm(OrderType::class, null, [
-            'user' => $this->getUser()
-        ]);
-        
-        return $this->render('order/index.html.twig', ['form' =>$form->createView(), 'cart'=>$cart->getFull()]);
+        return $this->render('order/orderManagement.html.twig', ['orders'=>$lesCommandes, 'orderDetails'=>$lesDetails]);
     }
 
     #[Route('/commande/summary', name: 'app_order_recap', methods: ['POST', 'GET'])]
-    public function add(Cart $cart, Request $request): Response
+    public function orderAdd(Cart $cart, Request $request): Response
     {
         
         $form = $this->createForm(OrderType::class, null, [
@@ -88,8 +101,7 @@ class OrderController extends AbstractController
                 $order->setCarrierName($carriers->getNom());
                 $order->setCarrierPrice($carriers->getPrix());
                 $order->setDelivery($delivery_content);
-                $order->setIsPaid(0);
-    
+                $order->setIsPaid(0);    
                 $this->entityManagerInterface->persist($order);
     
                 foreach ($cart->getFull() as $product){
@@ -112,5 +124,39 @@ class OrderController extends AbstractController
         }
         $this->addFlash('notice', 'Une erreur est survenue');
         return $this->redirectToRoute('app_cart');
+    }
+
+    #[Route('/admin/commandes-view', name: 'app_order_admin_view')]
+    public function adminOrderView(OrderRepository $orders): Response
+    {
+        return $this->render('order/orders-view.html.twig', ['orders'=>$orders->findAll()]);
+    }
+
+    #[Route('/commande', name: 'app_order')]
+    public function commande(Cart $cart): Response
+    {
+        if(!$this->getUser()->getAddresses()->getValues()){
+            return $this->redirectToRoute('app_address_add');
+        }
+        if(!$cart->getFull()){
+            return $this->redirectToRoute('app_cart');
+        }
+        
+        foreach ($cart->getFull() as $product){
+            $productId = $product['produit'];
+            $productQuantity = $product['quantity'];
+            $product = $this->entityManagerInterface->getRepository(Produit::class)->find($productId);
+
+            if ($product->getQuantite() < $productQuantity) {
+                $this->addFlash('notice', 'La quantité du produit n\'est pas valide !');
+                return $this->redirectToRoute('app_cart');
+            }
+        }
+
+        $form = $this->createForm(OrderType::class, null, [
+            'user' => $this->getUser()
+        ]);
+        
+        return $this->render('order/index.html.twig', ['form' =>$form->createView(), 'cart'=>$cart->getFull()]);
     }
 }

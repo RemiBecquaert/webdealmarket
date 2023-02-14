@@ -42,12 +42,20 @@
                                 <img class="img-thumbnail" src="{{ asset('uploads/fichiers/'~fichier.nomServeur) }}" alt="{{ produit.produit.slug }}" width="50px">
                             {% endfor %}
                             <h5 class="text-center">{{ produit.produit.libelle }}</h5>
-                            <small>Nombre de produits choisis: x{{produit.quantity}} <br/>{{ ((produit.produit.prix * produit.quantity)) }}€</small>
+                            <small>Nombre de produits choisis: x{{produit.quantity}} <br/>
+                            Prix unitaire: {{ produit.produit.prix }}€<br/>
+                            {% if produit.quantity != 1 %}
+                                Prix des articles: {{ ((produit.produit.prix * produit.quantity)) }}€</small>
+                            {% else %}
+                                </small>
+                            {% endif %}    
                             {% set total = total + (produit.produit.prix * produit.quantity) %}
-                            <strong>Total: </strong>{{total}}€<br/><hr>
                         </div>
                     </div>
+                    <hr>
                 {% endfor %}
+                <strong>Total du panier: </strong>{{total}}€<br/>
+
         </div>
     </div>
 </div>

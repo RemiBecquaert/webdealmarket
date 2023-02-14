@@ -10,6 +10,13 @@
     <h1 class="text-primary text-center mt-2"><b>{{ produit.libelle }}</b></h1>
 
     <div class="container p-4">
+        <div class="row text-center">
+            <div class="d-grid gap-2 d-md-block">
+				<a class="btn btn-outline-warning" href="{{path('app_produit_update', {'id':produit.id})}}">Modifier le produit</a>
+                <a class="btn btn-outline-danger" href="{{path('app_liste_produits', {'id':produit.id})}}" data-bs-toggle="modal" data-bs-target="#exampleModal">Supprimer le produit</a><br/>
+                <a class="btn btn-outline-secondary" href="{{ path('app_liste_produits') }}">Retour à la liste des produits</a>
+            </div>
+        </div>
         <div class="row">
             <div class="col-md-12 col-lg-6 text-center">
             {% for fichier in produit.illustration %}
@@ -34,13 +41,7 @@
                 </ul>
             </div>
         </div>
-        <div class="row text-center">
-            <div class="d-grid gap-2 d-md-block">
-				<a class="btn btn-outline-warning" href="{{ path('app_produit_update', {'id': produit.id}) }}">Modifier le produit</a>
-                <a class="btn btn-outline-danger" href="{{path('app_liste_produits', {'id':produit.id})}}" data-bs-toggle="modal" data-bs-target="#exampleModal">Supprimer le produit</a><br/>
-                <a class="btn btn-outline-secondary" href="{{ path('app_liste_produits') }}">Retour à la liste des produits</a>
-            </div>
-        </div>
+
     </div>
 
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
