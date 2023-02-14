@@ -18,21 +18,35 @@ use App\Repository\BookingRepository;
 use App\Form\UserUpdateType;
 use App\Form\UpdatePasswordType;
 use App\Entity\User;
+use App\Entity\Order;
 use App\Entity\Booking;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
 class ProfileController extends AbstractController
 {
-    public function __construct(EmailVerifier $emailVerifier)
+    public function __construct(EmailVerifier $emailVerifier, EntityManagerInterface $entityManagerInterface)
     {
         $this->emailVerifier = $emailVerifier;
+        $this->entityManagerInterface = $entityManagerInterface;
     }
 
     #[Route('/profil', name: 'app_profile', methods:['GET', 'POST'])]
-    public function profileResume(Security $security): Response
+    public function profileResume(Security $security, Request $request): Response
     {
         $user = $security->getUser();
+        $commande = new Order();
+        $userId = $user->getId();
         $isValid = $user->isVerified();
+
+        if($request->get('id') != null){
+            $datas = $this->createDatasJSON($user);
+            $response = new Response(json_encode($datas));
+            $response->headers->set('Content-Type', 'application/json');
+            $response->headers->set('Content-Disposition',$response->headers->makeDisposition(
+                ResponseHeaderBag::DISPOSITION_ATTACHMENT,'mes-donnees.json'));
+            return $response;
+        }    
 
         if(isset($_POST['verification'])&&!$isValid){
             $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
@@ -49,9 +63,10 @@ class ProfileController extends AbstractController
 
         return $this->render('profile/resume.html.twig', ['user'=>$user]);
     }
+    
 
-    #[Route('/profil/update-password', name: 'app_profile_update_password', methods: ['POST', 'GET'])]
-    public function profilePasswordUpdate(UserPasswordHasherInterface $userPasswordHasher, Security $security, Request $request, EntityManagerInterface $entityManagerInterface): Response
+    #[Route('/profil/update-password', name: 'app_profile_update_password', methods:['POST', 'GET'])]
+    public function profilePasswordUpdate(UserPasswordHasherInterface $hash, Security $security, Request $request, EntityManagerInterface $entityManagerInterface): Response
     {
         $user = $security->getUser();
         $userRepo = $entityManagerInterface->getRepository(User::class);
@@ -65,7 +80,7 @@ class ProfileController extends AbstractController
 
         if($form->isSubmitted()&&$form->isValid()){
             $user->setPassword(
-                $userPasswordHasher->hashPassword(
+                $hash->hashPassword(
                     $user,
                     $form->get('plainPassword')->getData()
                 )
@@ -157,5 +172,70 @@ class ProfileController extends AbstractController
         $users = $repoUser->findAll();
 
         return $this->render('profile/liste-user.html.twig', ['users'=>$users]);
+    }
+
+    public function createDatasJSON($user){
+        $nom = $user->getNom();
+        $prenom = $user->getPrenom();
+        $identifier = $user->getUserIdentifier();
+        $isValid = $user->isVerified();
+        $createdAt = $user->getDateCreationCompte()->format('Y-m-d');
+        $data = array(
+            'user' => array(
+                'nom' => $nom,
+                'prenom' => $prenom,
+                'login' => $identifier,
+                'creation' => $createdAt,
+                'verifie' => $isValid
+            ),
+            'orders' => array(),
+            'addresses' => array(),
+            'bookings' => array()
+        );
+        $lesCommandes = $user->getOrders();
+        foreach ($lesCommandes as $commande) {
+            $lesDetails = $commande->getOrderDetails();
+            foreach($lesDetails as $details) {
+                $order = array(
+                    'id' => $commande->getId(),
+                    'creationCommande' => $commande->getCreatedAt()->format('Y-m-d'),
+                    'isPaid' => $commande->isIsPaid(),
+                    'orderDetails' => array(
+                        'product' => $details->getProduct(),
+                        'quantity' => $details->getQuantity(),
+                        'price' => $details->getPrice(),
+                        'total' => $details->getTotal()
+                    )
+                );
+                $data['orders'][] = $order;
+            }
+        }
+        $lesAdresses = $user->getAddresses();
+        foreach ($lesAdresses as $adresse){
+            $tableauAdresses = array(
+                'name' => $adresse->getName(),
+                'nom' => $adresse->getFirstname(),
+                'prenom' => $adresse->getLastName(),
+                'address' => $adresse->getAddress(),
+                'postal' => $adresse->getPostal(),
+                'city' => $adresse->getCity(),
+                'country' => $adresse->getCountry(),
+                'phone' => $adresse->getPhone()
+            );
+            $data['addresses'][] = $tableauAdresses;
+        }
+
+        $lesBooking = $user->getBookings();
+        foreach ($lesBooking as $rdv){
+            $tableauRdv = array(
+                'isConfirmed' => $rdv->isIsConfirmed(),
+                'description' => $rdv->getDescription(),
+                'dateSouhaitee' => $rdv->getBeginAt()->format('Y-m-d'),
+                'dateCreation' => $rdv->getDateCreation()->format('Y-m-d')
+            );
+            $data['bookings'][] = $tableauRdv;
+        }
+
+        return $data;
     }
 }

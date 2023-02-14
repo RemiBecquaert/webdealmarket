@@ -30,6 +30,7 @@
                     <a href="{{path('app_address_management')}}" class="btn btn-lg btn-outline-primary">Gérer mes adresses de livraison</a>
                     <a href="{{path('app_order_management_user')}}" class="btn btn-lg btn-outline-primary">Mes commandes</a>
                     <a href="{{path('app_user_bookings')}}" class="btn btn-lg btn-outline-primary">Mes rendez-vous</a>
+                    <a href="{{path('app_profile', {'id':user.id})}}" class="btn btn-lg btn-outline-primary">Exporter mes données JSON</a>
                 {% else %}
                     <form method="post" class="text-center">
                         <input class="btn btn-lg btn-outline-danger" type="submit" value="Valider mon compte (obligatoire)" name="verification">
