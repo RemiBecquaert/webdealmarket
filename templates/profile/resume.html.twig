@@ -25,12 +25,15 @@
             <h2 class="text-dark text-center mt-2"><strong><u>Gestion de mon compte</u></strong></h2>
             <div class="d-grid gap-4">
                 {% if user.isVerified == true %}
-                    <a href="{{path('app_profile-update')}}" class="btn btn-lg btn-outline-primary">Modifier mes informations personnelles</a>
-                    <a href="{{path('app_profile_update_password')}}" class="btn btn-lg btn-outline-primary">Modifier mon mot de passe</a>
-                    <a href="{{path('app_address_management')}}" class="btn btn-lg btn-outline-primary">Gérer mes adresses de livraison</a>
-                    <a href="{{path('app_order_management_user')}}" class="btn btn-lg btn-outline-primary">Mes commandes</a>
-                    <a href="{{path('app_user_bookings')}}" class="btn btn-lg btn-outline-primary">Mes rendez-vous</a>
-                    <a href="{{path('app_profile', {'id':user.id})}}" class="btn btn-lg btn-outline-primary">Exporter mes données JSON</a>
+                    <div class="btn-group">
+                        <a href="{{path('app_address_management')}}" class="btn btn-lg btn-outline-primary m-2 rounded">Gérer mes adresses de livraison</a>
+                        <a href="{{path('app_profile-update')}}" class="btn btn-lg btn-outline-primary m-2 rounded">Modifier mes informations personnelles</a>
+                    </div>
+                    <div class="btn-group">
+                        <a href="{{path('app_profile_update_password')}}" class="btn btn-lg btn-outline-primary m-2 rounded">Modifier mon mot de passe</a>
+                        <a href="{{path('app_profile', {'id':user.id})}}" class="btn btn-lg btn-outline-primary m-2 rounded">Exporter mes données JSON</a>
+                    </div>
+        
                 {% else %}
                     <form method="post" class="text-center">
                         <input class="btn btn-lg btn-outline-danger" type="submit" value="Valider mon compte (obligatoire)" name="verification">
@@ -41,17 +44,11 @@
                     adresse mail valide et de supprimer l'ancien.
                     </h5>
                 {% endif %}
+                <small>WebDealMarket s'engage à respecter le Règlement Général sur la Protection des Données (RGPD) du 27 avril 2016.
+                Pour en savoir plus sur notre politique de traitement des données, veuillez cliquer <a href="{{path('app_mentions')}}">ici</a>.</small>
+
             </div>
         </div>
     </div>   
 </div>
-<div class="container p-4">
-    <div class="row">
-        <h5>WebDealMarket s'engage à respecter le Règlement Général sur la Protection des Données (RGPD) du 27 avril 2016.
-        Pour en savoir plus sur notre politique de traitement des données, veuillez cliquer <a href="{{path('app_mentions')}}">ici</a>.</h5>
-    </div>
-</div>
-
-
-
 {% endblock %}

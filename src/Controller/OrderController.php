@@ -79,6 +79,7 @@ class OrderController extends AbstractController
         $form = $this->createForm(OrderType::class, null, [
             'user' => $this->getUser()
         ]);
+        $changementPrixLivraison = 150;
 
         try{
             $form->handleRequest($request);
@@ -99,11 +100,9 @@ class OrderController extends AbstractController
                 $order->setUser($this->getUser());
                 $order->setCreatedAt($date);
                 $order->setCarrierName($carriers->getNom());
-                $order->setCarrierPrice($carriers->getPrix());
                 $order->setDelivery($delivery_content);
                 $order->setIsPaid(0);    
-                $this->entityManagerInterface->persist($order);
-    
+                $totalCommande = 0;
                 foreach ($cart->getFull() as $product){
                     $orderDetails = new OrderDetails();
                     $orderDetails->setMyOrder($order);
@@ -111,9 +110,15 @@ class OrderController extends AbstractController
                     $orderDetails->setQuantity($product['quantity']);
                     $orderDetails->setPrice($product['produit']->getPrix());
                     $orderDetails->setTotal($product['produit']->getPrix() * $product['quantity']);
+                    $totalCommande += $orderDetails->getTotal();
                     $this->entityManagerInterface->persist($orderDetails);
-                
+                }  
+                if($totalCommande > $changementPrixLivraison){
+                    $order->setCarrierPrice($carriers->getPrixFactureSup());
+                } else{
+                    $order->setCarrierPrice($carriers->getPrix());
                 }
+                $this->entityManagerInterface->persist($order);
                 $this->entityManagerInterface->flush();
             }
         return $this->render('order/add.html.twig', ['carrier'=>$carriers, 'adresse'=>$delivery, 'cart'=>$cart->getFull()]);

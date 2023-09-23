@@ -20,7 +20,6 @@
             {% else %}
                 <h4><i class="fa-regular fa-truck"></i> Transporteur choisi: <br/>{{carrier.nom}}</h4>
                 <p>{{carrier.description}}</p>
-                <small>Frais de livraison: {{carrier.prix}}€</small>
 
                 <hr>
                 <h4><i class="fa-regular fa-house"></i> Adresse de livraison: <br/></h4>
@@ -44,9 +43,15 @@
 
                 <hr>
                 <strong>Sous-total: </strong>{{total}}€<br/>
-                <strong>Livraison: </strong>{{carrier.prix}}€
+                {% if total > 150 %}
+                    <small>Frais de livraison: {{carrier.prixFactureSup}}€</small>
+                    <strong>Total: </strong>{{ ((total + carrier.prixFactureSup)) }}€ TTC<br/>
+                {% else %}
+                    <small>Frais de livraison: {{carrier.prix}}€</small>
+                    <strong>Total: </strong>{{ ((total + carrier.prix)) }}€ TTC<br/>
+
+                {% endif %}
                 <hr>
-                <strong>Total: </strong>{{ ((total + carrier.prix)) }}€ TTC<br/>
             <a href="#" class="btn btn-success btn-block">Payer ma commande</a>
         </div>
     </div>

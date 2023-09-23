@@ -20,9 +20,12 @@ use Symfony\Component\Filesystem\Path;
 
 use App\Entity\Produit;
 use App\Entity\MarqueProduit;
+use App\Entity\CategorieProduit;
 use App\Entity\Fichier;
 use App\Form\ProduitType;
 use App\Form\UpdateProduitType;
+
+use App\Service\ProduitService;
 
 class ProduitController extends AbstractController
 {
@@ -82,8 +85,10 @@ class ProduitController extends AbstractController
                 $entityManagerInterface->persist($fichier);
                 $entityManagerInterface->flush();
 
-                $this->addFlash('notice','Le produit a bien été créé !');
+                $this->addFlash('success','Le produit a bien été créé !');
                 return $this->redirectToRoute('app_ajout_produit');
+            } else {
+                $this->addFlash('danger','Erreur dans la création du produit !');
             }
         }
         return $this->render('produit/index.html.twig', ['form'=>$form->createView()]);
@@ -129,18 +134,23 @@ class ProduitController extends AbstractController
     }
 
     #[Route('/produits-view-all', name: 'app_product_list')]
-    public function listeProduit(EntityManagerInterface $entityManagerInterface): Response
+    public function listeProduit(ProduitService $produitService): Response
     {
-        $repoProduit = $entityManagerInterface->getRepository(Produit::class);
-        $produits = $repoProduit->findAll();
-        return $this->render('produit/produitList.html.twig', ['produits'=>$produits]);
+        return $this->render('produit/produitList.html.twig', ['produits'=>$produitService->getPaginatedProduct()]);
     }
 
-    #[Route('/produits-{libelle}', name: 'app_product_marque')]
-    public function voirByMarque(MarqueProduit $marque, Request $request, EntityManagerInterface $entityManagerInterface): Response
+    #[Route('/produits-marque-{id}', name: 'app_product_marque')]
+    public function voirByMarque(ProduitService $produitService, Request $request, EntityManagerInterface $entityManagerInterface): Response
     {
-        
-        return $this->render('produit/produitList.html.twig', ['produits'=>$marque->getProduits()]);
+        $laMarque = $entityManagerInterface->getRepository(MarqueProduit::class)->find($request->get('id'));
+        return $this->render('produit/produitList.html.twig', ['produits'=>$produitService->getPaginatedProduct(null, $laMarque)]);
+    }
+
+    #[Route('/produits-categorie-{id}', name: 'app_product_category')]
+    public function voirByCategory(ProduitService $produitService, Request $request, EntityManagerInterface $entityManagerInterface): Response
+    {
+        $laCategorie = $entityManagerInterface->getRepository(CategorieProduit::class)->find($request->get('id'));
+        return $this->render('produit/produitList.html.twig', ['produits'=>$produitService->getPaginatedProduct($laCategorie)]);
     }
     /*FIN DES FONCTIONS UTILISATEURS*/
 

@@ -3,8 +3,11 @@
 namespace App\Repository;
 
 use App\Entity\Produit;
+use App\Entity\MarqueProduit;
+use App\Entity\CategorieProduit;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\Query;
 
 /**
  * @extends ServiceEntityRepository<Produit>
@@ -39,18 +42,36 @@ class ProduitRepository extends ServiceEntityRepository
         }
     }
 
-    public function findByMarque(mixed $value): array
-    {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.id_marque = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getResult()
-        ;
+    public function findForPagination(?CategorieProduit $categorie = null, ?MarqueProduit $marque = null):Query{
+        $qb = $this->createQueryBuilder('p')
+        ->orderBy('p.libelle', 'ASC');
+        if($categorie){
+            $qb->leftJoin('p.idCategorie', 'c')
+            ->where($qb->expr()->eq('c.id', ':id'))
+            ->setParameter('id', $categorie->getId());
+        }
+        if($marque){
+            $qb->leftJoin('p.idMarque', 'm')
+            ->where($qb->expr()->eq('m.id', ':id'))
+            ->setParameter('id', $marque->getId());
+        }
+        return $qb->getQuery();
+
     }
 
+/*    public function findForPagination(?Category $category = null): Query
+    {
+        $qb = $this->createQueryBuilder('a')
+            ->orderBy('a.createdAt', 'DESC');
 
+        if ($category) {
+            $qb->leftJoin('a.categories', 'c')
+                ->where($qb->expr()->eq('c.id', ':id'))
+                ->setParameter('id', $category->getId());
+        }
 
+        return $qb->getQuery();
+    }*/
 //    /**
 //     * @return Produit[] Returns an array of Produit objects
 //     */

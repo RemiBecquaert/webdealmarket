@@ -13,10 +13,12 @@ use App\Entity\CategorieProduit;
 use App\Form\MarqueType;
 use App\Repository\MarqueProduitRepository;
 
+use App\Service\MarqueService;
+
 class MarqueController extends AbstractController
 {
     #[Route('/admin/brands-view', name: 'app_marque')]
-    public function index(Request $request, EntityManagerInterface $entityManagerInterface): Response
+    public function index(Request $request, EntityManagerInterface $entityManagerInterface, MarqueService $marqueService): Response
     {
         $marque = new MarqueProduit();
         $form = $this->createForm(MarqueType::class, $marque);
@@ -40,16 +42,12 @@ class MarqueController extends AbstractController
             $this->addFlash('danger','Marque supprimée de la liste !');
             return $this->redirectToRoute('app_marque');
         }
-        $lesMarques = $repoMarque->findAll();
-
-        return $this->render('marque/index.html.twig', ['form'=>$form->createView(), 'lesMarques'=> $lesMarques] );
+        return $this->render('marque/index.html.twig', ['form'=>$form->createView(), 'lesMarques'=> $marqueService->getPaginatedBrands()] );
     }
 
     #[Route('/brands', name: 'app_marques')]
-    public function listeMarque(EntityManagerInterface $entityManagerInterface): Response
+    public function listeMarque(MarqueService $marqueService): Response
     {
-        $repoMarques = $entityManagerInterface->getRepository(MarqueProduit::class);
-        $marques = $repoMarques->findAll();
-        return $this->render('produit/marqueList.html.twig', ['marques'=>$marques]);
+        return $this->render('produit/marqueList.html.twig', ['marques'=>$marqueService->getPaginatedBrands()]);
     }
 }

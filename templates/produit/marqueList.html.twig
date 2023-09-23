@@ -4,13 +4,20 @@
 
 {% block body %}
 {{parent()}}
-<div class="container p-4">
-
-{% for marque in marques %}
-<a class="btn btn-primary m-2" href="{{ path('app_product_marque', {'libelle': marque.libelle}) }}">{{marque.libelle}}</a>
-
-{% endfor %}        
-
+<div class="container p-4 text-center">
+    <h2>Nos marques</h2>
+    <div class="row pt-2 pb-2 d-flex justify-content-center">
+        <div class="col-8">
+            <ul class="list-group">
+                {% for marque in marques %}
+                    <li class="list-group-item"><a class="no-decoration" href="{{ path('app_product_marque', {'id': marque.id}) }}">{{marque.libelle | upper}}</a></li>
+                {% endfor %}        
+            </ul>
+        </div>
+    </div>
+    <div class="container pt-2 pb-2 d-flex justify-content-center">
+        {{ knp_pagination_render(marques) }}
+    </div>
 </div>
 
 

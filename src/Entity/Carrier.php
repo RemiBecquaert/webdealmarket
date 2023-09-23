@@ -23,6 +23,9 @@ class Carrier
     #[ORM\Column]
     private ?float $prix = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?float $prixFactureSup = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -66,6 +69,18 @@ class Carrier
 
     public function __toString(){
         return '[b]'.$this->getNom().'[br]'.'[/b]'.'[em]'.$this->getDescription().'[/em]'.'[br]'.number_format($this->getPrix(), 2, ',', ',').'€';   
+    }
+
+    public function getPrixFactureSup(): ?float
+    {
+        return $this->prixFactureSup;
+    }
+
+    public function setPrixFactureSup(?float $prixFactureSup): self
+    {
+        $this->prixFactureSup = $prixFactureSup;
+
+        return $this;
     }
 
     }

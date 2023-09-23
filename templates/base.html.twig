@@ -11,54 +11,59 @@
         <link rel="stylesheet" href="https://bootswatch.com/5/zephyr/bootstrap.min.css">
         <!--link rel="stylesheet" href="https://bootswatch.com/5/morph/bootstrap.min.css"-->
         <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.2.1/css/all.css">
-        <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-
     </head>
     <body>
         {% block body %}
             <nav class="navbar navbar-expand-lg bg-dark">
                 <div class="container-fluid">
                     <a class="navbar-brand" href="{{path('app_base')}}">
-                        <img src="{{asset('images/logo.png')}}" alt="Accueil WebDealMarket" width="30" height="30">
+                        <img src="{{asset('images/logo.png')}}" alt="Accueil WebDealMarket" width="50" height="50">
                     </a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link active text-light" aria-current="page" href="#">Revendre mon appareil</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active text-light" aria-current="page" href="{{path('app_reparer')}}">Service de réparation</a>
-                        </li> 
-                       <li class="nav-item">
-                            <a class="nav-link active text-light" aria-current="page" href="{{path('app_contact')}}">Contact</a>
-                        </li>         
-                        {% if is_granted('ROLE_ADMIN') %}
-                       <li class="nav-item">
-                            <a class="nav-link active text-light" aria-current="page" href="{{path('app_control_panel')}}">Panel de contrôle</a>
-                        </li>    
-                        {% endif %}
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li class="nav-item">
+                                <a class="nav-link active text-light" aria-current="page" href="#">REVENDRE MON APPAREIL</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active text-light" aria-current="page" href="{{path('app_reparer')}}">RÉPARATION</a>
+                            </li> 
+                            <li class="nav-item">
+                                <a class="nav-link active text-light" aria-current="page" href="{{path('app_contact')}}">CONTACT</a>
+                            </li>         
+                            {% if is_granted('ROLE_ADMIN') %}
+                                <li class="nav-item">
+                                        <a class="nav-link active text-light" aria-current="page" href="{{path('app_control_panel')}}">PANEL DE CONTRÔLE</a>
+                                    </li>    
+                            {% endif %}     
+                        </ul>
+                        <ul class="navbar-nav">
+                            {% if is_granted('IS_AUTHENTICATED_FULLY') %} 
+                            <li class="nav-item">
+                                <a class="nav-link active text-light" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Mon panier"  aria-current="page" href="{{path('app_cart')}}"><i class="fa-regular fa-basket-shopping fa-xl"></i></a>
+                            </li>  
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fa-regular fa-user fa-xl"></i>
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li><a class="dropdown-item" href="{{path('app_order_management_user')}}">Mes commandes</a></li>
+                                    <li><a class="dropdown-item" href="{{path('app_user_bookings')}}">Mes réparations</a></li>
+                                    <li><a class="dropdown-item" href="{{path('app_profile')}}">Mon profil</a></li>
+                                </ul>
+                            </li>
+                            {% endif %}
 
-                        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                        <li class="nav-item">
-                            <a class="nav-link active text-light" aria-current="page" href="{{path('app_profile')}}">Mon profil</a>
-                        </li>  
-                        <li class="nav-item">
-                            <a class="nav-link active text-light" aria-current="page" href="{{path('app_cart')}}">Mon panier</a>
-                        </li>  
-                        {% endif %}
-
-                        {% if not app.user %}
-                            <a class="btn btn-outline-info nav-link active text-light ms-1 me-1" href="{{path('app_login')}}">Se connecter</a>
-                            <a class="btn btn-outline-success nav-link active text-light ms-1 me-1" href="{{path('app_register')}}">S'inscrire</a>
-                        {% endif %}
-                        {% if app.user %}
-                            <!--a class="nav-link disabled text-success">{{ app.user.userIdentifier }}</a-->
-                            <a class="btn btn-outline-danger nav-link active text-light" href="{{path('app_logout')}}">Se déconnecter</a>
-                        {% endif %}
-                    </ul>
+                            {% if not app.user %}
+                                <a class="btn btn-outline-info nav-link active text-light ms-1 me-1" href="{{path('app_login')}}">Se connecter</a>
+                                <a class="btn btn-outline-success nav-link active text-light ms-1 me-1" href="{{path('app_register')}}">S'inscrire</a>
+                            {% endif %}
+                            {% if app.user %}
+                                <a class="btn btn-outline-danger nav-link active text-light" href="{{path('app_logout')}}">Se déconnecter</a>
+                            {% endif %}
+                        </ul>
                     </div>
                 </div>
             </nav>
@@ -71,64 +76,47 @@
                     <a class="navbar-brand text-dark" href="{{path('app_product_list')}}">Voir tous les produits</a>
                     <div class="collapse navbar-collapse" id="productNavbar">
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                                <li class="nav-item">
-                                    <a class="nav-link" aria-current="page" href="{{path('app_marques')}}">Voir nos marques</a>
-                                </li>                
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Smartphones</a>
-                                    <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" href="#">Apple</a></li>
-                                        <li><a class="dropdown-item" href="#">Samsung</a></li>
-                                        <li><a class="dropdown-item" href="#">Huawei</a></li>
-                                        <li><a class="dropdown-item" href="#">Oppo</a></li>
-                                        <li><a class="dropdown-item" href="#">Motorola</a></li>
-                                        <li><a class="dropdown-item" href="#">Nokia</a></li>
-                                        <li><a class="dropdown-item" href="#">Redmi</a></li>
-                                        <li><a class="dropdown-item" href="#">Blackberry</a></li>
-                                    </ul>
-                                </li>                
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Ordinateurs</a>
-                                    <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" href="#">PC fixes</a></li>
-                                        <li><a class="dropdown-item" href="#">PC portables</a></li>
-                                    </ul>
-                                </li>
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Consoles</a>
-                                    <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" href="#">Sony</a></li>
-                                        <li><a class="dropdown-item" href="#">Microsoft</a></li>
-                                        <li><a class="dropdown-item" href="#">Nintendo</a></li>
-                                        <li><a class="dropdown-item" href="#">Autres consoles</a></li>
-                                    </ul>
-                                </li>
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Jeux vidéos</a>
-                                    <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" href="#">Sony</a></li>
-                                        <li><a class="dropdown-item" href="#">Microsoft</a></li>
-                                        <li><a class="dropdown-item" href="#">Nintendo</a></li>
-                                    </ul>
-                                </li>                                
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Produits dérivés</a>
-                                    <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" href="#">Figurines</a></li>
-                                        <li><a class="dropdown-item" href="#">Goodies</a></li>
-                                    </ul>
-                                </li>                
-                                <li class="nav-item">
-                                    <a class="nav-link" aria-current="page" href="#">Écrans TV</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" aria-current="page" href="#">Électroménager</a>
-                                </li>
+                            <li class="nav-item">
+                                <a class="nav-link" aria-current="page" href="{{path('app_marques')}}">Voir nos marques</a>
+                            </li>  
+                            <li class="nav-item">
+                                <a class="nav-link" aria-current="page" href="{{path('app_product_category', {'id': 6})}}">Smartphones</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Ordinateurs</a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li><a class="dropdown-item" href="{{path('app_product_category', {'id': 3})}}">PC portable</a></li>
+                                    <li><a class="dropdown-item" href="{{path('app_product_category', {'id': 4})}}">PC fixe</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Écrans</a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li><a class="dropdown-item" href="{{path('app_product_category', {'id': 1})}}">Écrans PC</a></li>
+                                    <li><a class="dropdown-item" href="{{path('app_product_category', {'id': 5})}}">Télévisions</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Jeux-vidéos</a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li><a class="dropdown-item" href="{{path('app_product_category', {'id': 2})}}">Consoles de jeu</a></li>
+                                    <li><a class="dropdown-item" href="{{path('app_product_category', {'id': 9})}}">Jeux</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Produits dérivés</a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li><a class="dropdown-item" href="{{path('app_product_category', {'id': 7})}}">Figurines</a></li>
+                                    <li><a class="dropdown-item" href="{{path('app_product_category', {'id': 8})}}">Goodies</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" aria-current="page" href="{{path('app_product_category', {'id': 10})}}">Électroménager</a>
+                            </li>
                         </ul>
                     </div>
                 </div>
             </nav>
-
             {% for message in app.flashes('notice') %}
                 <h2 class="alert alert-warning text-center" role="alert">
                     {{ message }}
@@ -146,10 +134,14 @@
                     {{ message }}
                 </h2>
             {% endfor %}
-
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-
-        <!--script src="{{asset('js/tarteaucitron/tarteaucitron.js')}}"></script>
+        <script>
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl)
+            })                    
+        </script>
+        <script src="{{asset('js/tarteaucitron/tarteaucitron.js')}}"></script>
 
         <script type="text/javascript">
             tarteaucitron.init({
@@ -209,11 +201,10 @@
             gtag('js', new Date());
 
             gtag('config', 'G-BG9KJCMFMH');
-        </script-->
+        </script>
         {% endblock %}
         
         {% block footer %}
-            <!-- Footer -->            
             <footer class="bg-dark text-center text-white">
             <!-- Grid container -->
             <div class="container p-4">
@@ -233,13 +224,8 @@
                     Suivez-nous sur nos réseaux sociaux !<br/>📱WEB DEAL MARKET votre boutique spécialisée en équipement multimédia à Béthune !📱
                 </p>
                 </section>
-                <!-- Section: Text -->
-
-                <!-- Section: Links -->
                 <section class="">
-                <!--Grid row-->
                 <div class="row">
-                    <!--Grid column-->
                     <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
                     <h5 class="text-uppercase">Nos services</h5>
 
@@ -258,9 +244,6 @@
                         </li>
                     </ul>
                     </div>
-                    <!--Grid column-->
-
-                    <!--Grid column-->
                     <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
                     <h5 class="text-uppercase">Nos produits</h5>
 
@@ -279,9 +262,6 @@
                         </li>
                     </ul>
                     </div>
-                    <!--Grid column-->
-
-                    <!--Grid column-->
                     <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
                     <h5 class="text-uppercase">Nos produits</h5>
 
@@ -300,9 +280,6 @@
                         </li>
                     </ul>
                     </div>
-                    <!--Grid column-->
-
-                    <!--Grid column-->
                     <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
                     <h5 class="text-uppercase">Liens utiles</h5>
 
@@ -321,23 +298,14 @@
                         </li>
                     </ul>
                     </div>
-                    <!--Grid column-->
                 </div>
-                <!--Grid row-->
                 </section>
-                <!-- Section: Links -->
             </div>
-            <!-- Grid container -->
             <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
                 © 2023 Copyright:
                 <a class="text-white" href="#">webdealmarket.fr</a>
             </div>
             </footer>
-            <!-- Footer -->
-            <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-            <script>
-                AOS.init();
-            </script>
         {% endblock %}
     </body>
 </html>

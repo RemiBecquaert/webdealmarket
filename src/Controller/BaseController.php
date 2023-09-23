@@ -10,6 +10,7 @@ use Symfony\Component\Security\Core\Security;
 
 use App\Repository\ProduitRepository;
 use App\Entity\Produit;
+use App\Entity\CategorieProduit;
 use Doctrine\ORM\EntityManagerInterface;
 
 class BaseController extends AbstractController
@@ -18,9 +19,11 @@ class BaseController extends AbstractController
     public function index(EntityManagerInterface $entityManagerInterface, Request $request): Response
     {
         $repoProduit = $entityManagerInterface->getRepository(Produit::class);
+        $repoCategorie = $entityManagerInterface->getRepository(CategorieProduit::class);
+        $categories = $repoCategorie->findBy(array(), array('libelle'=> 'ASC'));
         $favouriteProduct = $repoProduit->findBy(['isFavourite' => true]);
         
-        return $this->render('base/index.html.twig', ['favouriteProduct'=>$favouriteProduct]);
+        return $this->render('base/index.html.twig', ['favouriteProduct'=>$favouriteProduct, 'categories'=>$categories]);
     }
 
     #[Route('/reparer', name: 'app_reparer')]

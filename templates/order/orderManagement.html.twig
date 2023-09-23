@@ -5,8 +5,6 @@
 {% block body %}
 {{ parent() }}
 
-{% set total = null %}
-{% set nombreP = null %}
 
 	<div class="container-fluid">
         <h2 class="text-dark text-center mt-2">Mes commandes</h2>
@@ -31,31 +29,28 @@
                                         <h6>Prix: {{orderDetails.total}}€</h6>
                                     </div>
                                     <h6 class="text-muted">Quantité: x{{orderDetails.quantity}}</h6> 
-                                        
-                                    {% set total = total + (orderDetails.price * orderDetails.quantity) %}
-                                    {% set nombreP = nombreP + orderDetails.quantity %}
                                 <hr>
                                 {% endfor %}
 
                                 <div class="row">
-                                    {% if order.carrierPrice != 0 %}
+                                    {% if order.carrierName != 'Click and Collect' %}
                                         <div class="col">
                                             <div class="bg-light rounded border">
                                                 <h6>{{order.delivery | replace({'<br/>' : '<br/>'}) | raw }}</h6>
                                             </div>
                                         </div>
                                         <div class="col">
-                                            <h6>Sous-total: {{total}}€</h6>
+                                            <h6>Sous-total: €</h6>
                                             <h6>Livraison: ({{order.carrierName}}) {{order.carrierPrice}}€</h6>
                                             <hr>
-                                            <h6>Prix total de la commande: {{ ((total + order.carrierPrice)) }}€ TTC</h6><br/>
+                                            <h6>Prix total de la commande: € TTC</h6><br/>
                                         </div>
                                     {% else %}  
                                         <div class="col">
                                             <h6>Click and Collect choisi</h6>
                                         </div>
                                         <div class="col">
-                                            <h6>Prix total TTC: {{total}}€</h6>
+                                            <h6>Prix total TTC: €</h6>
                                         </div>
                                     {% endif %}    
                                 </div>
